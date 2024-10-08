@@ -38,6 +38,7 @@ public static class TimeseriesHelper
         return spans;
     }
 
+    /// <summary>
     /// Exclude from timeseries values the date periode passed in parameter
     /// </summary>
     /// <param name="counter"></param>
