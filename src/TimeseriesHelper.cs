@@ -41,39 +41,44 @@ public static class TimeseriesHelper
     /// <summary>
     /// Exclude from timeseries values the date periode passed in parameter
     /// </summary>
-    /// <param name="counter"></param>
+    /// <param name="timeseriesValues"></param>
     /// <param name="spansToExclude"></param>
-    public static IEnumerable<KeyValuePair<DateTimeOffset, double>> ExcludeSpan(this IEnumerable<KeyValuePair<DateTimeOffset, double>> timeseriesValues, IEnumerable<Tuple<DateTimeOffset, DateTimeOffset>> spansToExclude)
+    public static IEnumerable<KeyValuePair<DateTimeOffset, double>> ExcludeSpan(this IEnumerable<KeyValuePair<DateTimeOffset, double>> timeseriesValues, IEnumerable<Tuple<DateTimeOffset, DateTimeOffset>>? spansToExclude)
     {
         var lstCounterData = new List<KeyValuePair<DateTimeOffset, double>>();
         var enumerator = timeseriesValues.GetEnumerator();
-        bool hasValue = false;
-        if (spansToExclude != null && spansToExclude.Any())
+        using IDisposable enumerator1 = enumerator;
+        var hasValue = false;
+        if (spansToExclude != null)
         {
-            foreach (var span in spansToExclude)
+            var toExclude = spansToExclude as Tuple<DateTimeOffset, DateTimeOffset>[] ?? spansToExclude.ToArray();
+            if (toExclude.Any())
             {
-                if (hasValue)
+                foreach (var span in toExclude)
                 {
-                    if (enumerator.Current.Key < span.Item1)
+                    if (hasValue)
                     {
-                        lstCounterData.Add(enumerator.Current);
-                    }
-                }
-
-                hasValue = enumerator.MoveNext();
-                while (hasValue)
-                {
-                    if (enumerator.Current.Key < span.Item1)
-                    {
-                        lstCounterData.Add(enumerator.Current);
-                    }
-
-                    if (enumerator.Current.Key > span.Item2)
-                    {
-                        break;
+                        if (enumerator.Current.Key < span.Item1)
+                        {
+                            lstCounterData.Add(enumerator.Current);
+                        }
                     }
 
                     hasValue = enumerator.MoveNext();
+                    while (hasValue)
+                    {
+                        if (enumerator.Current.Key < span.Item1)
+                        {
+                            lstCounterData.Add(enumerator.Current);
+                        }
+
+                        if (enumerator.Current.Key > span.Item2)
+                        {
+                            break;
+                        }
+
+                        hasValue = enumerator.MoveNext();
+                    }
                 }
             }
         }

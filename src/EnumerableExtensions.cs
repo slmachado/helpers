@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace Helpers
 {
     public static class EnumerableExtensions
@@ -24,7 +20,7 @@ namespace Helpers
         /// <param name="obj">The list to search.</param>
         /// <param name="value">The value to find.</param>
         /// <returns>The index of the value if found; otherwise, -1.</returns>
-        public static int IndexOf<T>(this IList<T> obj, T value)
+        public static int IndexOf<T>(this IList<T> obj, T? value)
         {
             if (obj == null) throw new ArgumentNullException(nameof(obj));
             return obj.IndexOf(value, EqualityComparer<T>.Default);
@@ -38,14 +34,14 @@ namespace Helpers
         /// <param name="value">The value to find.</param>
         /// <param name="comparer">The comparer to use for comparing elements.</param>
         /// <returns>The index of the value if found; otherwise, -1.</returns>
-        public static int IndexOf<T>(this IEnumerable<T> obj, T value, IEqualityComparer<T> comparer)
+        private static int IndexOf<T>(this IEnumerable<T> obj, T? value, IEqualityComparer<T>? comparer)
         {
             if (obj == null) throw new ArgumentNullException(nameof(obj));
             comparer ??= EqualityComparer<T>.Default;
             var found = obj
                 .Select((a, i) => new { a, i })
                 .FirstOrDefault(x => comparer.Equals(x.a, value));
-            return found == null ? -1 : found.i;
+            return found?.i ?? -1;
         }
 
         /// <summary>
@@ -72,8 +68,8 @@ namespace Helpers
             {
                 if (matchFilling(iter.Current))
                 {
-                    T? current = iter.Current;
-                    T? next = iter.MoveNext() ? iter.Current : default;
+                    var current = iter.Current;
+                    var next = iter.MoveNext() ? iter.Current : default;
 
                     return (previous, current, next);
                 }

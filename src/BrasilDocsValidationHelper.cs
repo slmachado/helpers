@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+// ReSharper disable InconsistentNaming
 
 namespace Helpers
 {
@@ -32,11 +33,11 @@ namespace Helpers
             if (cnpj.Length != 14 || IsRepeatedDigits(cnpj))
                 return false;
 
-            string tempCnpj = cnpj.Substring(0, 12);
-            string digito = CalculateChecksum(tempCnpj, new int[] { 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 }).ToString();
+            var tempCnpj = cnpj.Substring(0, 12);
+            var digito = CalculateChecksum(tempCnpj, new[] { 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 }).ToString();
 
             tempCnpj += digito;
-            digito += CalculateChecksum(tempCnpj, new int[] { 6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 }).ToString();
+            digito += CalculateChecksum(tempCnpj, new[] { 6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 }).ToString();
 
             return cnpj.EndsWith(digito);
         }
@@ -53,8 +54,8 @@ namespace Helpers
             if (pis.Length != 11 || IsRepeatedDigits(pis))
                 return false;
 
-            int checksum = CalculateChecksum(pis.Substring(0, 10), new int[] { 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 });
-            int expectedDigit = (checksum % 11) < 2 ? 0 : 11 - (checksum % 11);
+            var checksum = CalculateChecksum(pis.Substring(0, 10), new[] { 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 });
+            var expectedDigit = (checksum % 11) < 2 ? 0 : 11 - (checksum % 11);
 
             return pis.EndsWith(expectedDigit.ToString());
         }
@@ -72,10 +73,10 @@ namespace Helpers
                 return false;
 
             string tempCpf = cpf.Substring(0, 9);
-            string digito = CalculateChecksum(tempCpf, new int[] { 10, 9, 8, 7, 6, 5, 4, 3, 2 }).ToString();
+            string digito = CalculateChecksum(tempCpf, new[] { 10, 9, 8, 7, 6, 5, 4, 3, 2 }).ToString();
 
             tempCpf += digito;
-            digito += CalculateChecksum(tempCpf, new int[] { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 }).ToString();
+            digito += CalculateChecksum(tempCpf, new[] { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 }).ToString();
 
             return cpf.EndsWith(digito);
         }

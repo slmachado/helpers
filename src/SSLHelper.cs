@@ -1,9 +1,10 @@
 ﻿using System.Net;
 using System.Net.Security;
+// ReSharper disable InconsistentNaming
 
 namespace Helpers;
 
-public class SslHelper
+public static class SslHelper
 {
     private static readonly RemoteCertificateValidationCallback? _defaultValidationCallback = ServicePointManager.ServerCertificateValidationCallback;
 
@@ -12,7 +13,7 @@ public class SslHelper
     /// </summary>
     public static void IgnoreCertificateWarning()
     {
-        ServicePointManager.ServerCertificateValidationCallback += (sender, cert, chain, sslPolicyErrors) => true;
+        ServicePointManager.ServerCertificateValidationCallback += (_, _, _, _) => true;
     }
 
     /// <summary>
@@ -41,7 +42,7 @@ public class SslHelper
         var originalCallback = ServicePointManager.ServerCertificateValidationCallback;
         try
         {
-            ServicePointManager.ServerCertificateValidationCallback = (sender, cert, chain, sslPolicyErrors) => true;
+            ServicePointManager.ServerCertificateValidationCallback = (_, _, _, _) => true;
             action();
         }
         finally

@@ -273,7 +273,7 @@ public static class SerializationHelper
 
         using var memoryStream = new MemoryStream(data);
         var formatter = new BinaryFormatter();
-        return (T)formatter.Deserialize(memoryStream)!;
+        return (T)formatter.Deserialize(memoryStream);
     }
 
 

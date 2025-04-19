@@ -1,4 +1,5 @@
-﻿namespace Helpers;
+﻿// ReSharper disable InconsistentNaming
+namespace Helpers;
 
 /// <summary>
 /// Provides mathematical helper methods for trend analysis, statistics calculations, and other operations on data series.
@@ -71,7 +72,8 @@ public static class MathHelper
     /// <returns>The discrepancy value.</returns>
     public static double GetDiscrepancy(IEnumerable<double> values)
     {
-        return values?.Any() == true ? values.Max() - values.Min() : 0;
+        var enumerable = values as double[] ?? values.ToArray();
+        return enumerable.Any() ? enumerable.Max() - enumerable.Min() : 0;
     }
 
     /// <summary>
@@ -82,11 +84,12 @@ public static class MathHelper
     /// <param name="stdDeviation">The standard deviation of the series.</param>
     public static void CalculateStandardDeviation(IEnumerable<double> values, out double? average, out double? stdDeviation)
     {
-        if (values?.Any() == true)
+        var enumerable = values as double[] ?? values.ToArray();
+        if (enumerable.Any())
         {
-            double avg = values.Average(); // Calcula a média e armazena em uma variável local
+            var avg = enumerable.Average(); // Calcula a média e armazena em uma variável local
             average = avg;
-            stdDeviation = Math.Sqrt(values.Average(v => Math.Pow(v - avg, 2))); // Usa a média armazenada para calcular o desvio padrão
+            stdDeviation = Math.Sqrt(enumerable.Average(v => Math.Pow(v - avg, 2))); // Usa a média armazenada para calcular o desvio padrão
         }
         else
         {
@@ -101,7 +104,7 @@ public static class MathHelper
     /// </summary>
     /// <param name="values">Series of date-value pairs.</param>
     /// <returns>The weighted average value.</returns>
-    public static double? GetAverage(IList<KeyValuePair<DateTimeOffset, double>> values)
+    public static double? GetAverage(IList<KeyValuePair<DateTimeOffset, double>>? values)
     {
         if (values == null || !values.Any()) return null;
 
@@ -123,7 +126,7 @@ public static class MathHelper
     /// </summary>
     /// <param name="values">Series of date-value pairs.</param>
     /// <returns>The average squared value.</returns>
-    public static double? GetAverageSquare(IList<KeyValuePair<DateTimeOffset, double>> values)
+    public static double? GetAverageSquare(IList<KeyValuePair<DateTimeOffset, double>>? values)
     {
         if (values == null || !values.Any()) return null;
 
@@ -146,7 +149,7 @@ public static class MathHelper
     /// <param name="values">Series of date-value pairs.</param>
     /// <param name="average">The average value.</param>
     /// <returns>The standard deviation.</returns>
-    public static double? GetStandardDeviation(IList<KeyValuePair<DateTimeOffset, double>> values, double average)
+    public static double? GetStandardDeviation(IList<KeyValuePair<DateTimeOffset, double>>? values, double average)
     {
         double? avgSquare = GetAverageSquare(values);
         if (avgSquare == null) return null;

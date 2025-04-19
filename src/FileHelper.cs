@@ -2,8 +2,6 @@ namespace Helpers;
 
 using System.Globalization;
 using System.IO;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 /// <summary>
 /// Helper class for performing common file operations.
@@ -227,9 +225,9 @@ public class FileSizeFormatProvider : IFormatProvider, ICustomFormatter
                 break;
         }
 
-        var precision = format != null && format.Length > 2 ? format.Substring(2) : "2";
+        var precision = format.Length > 2 ? format[2..] : "2";
 
-        return string.Format("{0:N" + precision + "} {1}", size, suffix);
+        return string.Format("{{0:N" + precision + "}} {1}", size, suffix);
     }
 
     private static string? DefaultFormat(string? format, object arg, IFormatProvider formatProvider)

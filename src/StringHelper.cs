@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
+﻿using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace Helpers
@@ -98,18 +94,16 @@ namespace Helpers
         public static int GetLineNumber(this string text, string lineToFind)
         {
             int lineNum = 0;
-            using (StringReader reader = new StringReader(text))
+            using StringReader reader = new StringReader(text);
+            while (reader.ReadLine() is { } line)
             {
-                string? line;
-                while ((line = reader.ReadLine()) != null)
+                lineNum++;
+                if (line.Contains(lineToFind))
                 {
-                    lineNum++;
-                    if (line.Contains(lineToFind))
-                    {
-                        return lineNum;
-                    }
+                    return lineNum;
                 }
             }
+
             return -1;
         }
 
@@ -172,7 +166,7 @@ namespace Helpers
         /// </summary>
         /// <param name="value">The string to check.</param>
         /// <returns>True if the string has data; otherwise, false.</returns>
-        public static bool HasData(this string value)
+        private static bool HasData(this string value)
         {
             return !string.IsNullOrEmpty(value);
         }

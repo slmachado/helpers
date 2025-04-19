@@ -1,4 +1,5 @@
 using System.Globalization;
+// ReSharper disable UnusedMember.Local
 
 namespace Helpers;
 
@@ -7,6 +8,9 @@ namespace Helpers;
 /// </summary>
 public static class DateTimeHelper
 {
+    public static string FormatDate(DateTime? date) =>
+        date?.ToString("dd/MM/yyyy") ?? string.Empty;
+    
     /// <summary>
     /// Gets the minimum DateTime value.
     /// </summary>
@@ -122,7 +126,7 @@ public static class DateTimeHelper
     /// <returns>The quarter number (1-4).</returns>
     public static int GetQuarter(int month)
     {
-        if (month < 1 || month > 12)
+        if (month is < 1 or > 12)
         {
             throw new ArgumentOutOfRangeException(nameof(month), "Month must be between 1 and 12.");
         }
@@ -139,13 +143,12 @@ public static class DateTimeHelper
     /// <returns>A collection of dates matching the frequency.</returns>
     public static IEnumerable<DateTimeOffset> GetDatesInFrequency(this IEnumerable<DateTimeOffset> dates, TimeSpan frequency)
     {
+        dates = dates.ToList();
         if (dates == null) throw new ArgumentNullException(nameof(dates));
         if (!dates.Any()) return Enumerable.Empty<DateTimeOffset>();
 
         var goodDate = GetFirstGoodDateInFrequency(dates, frequency);
-        if (goodDate == null) return Enumerable.Empty<DateTimeOffset>();
-
-        return dates.Where(current => Math.Abs((goodDate.Value - current).TotalMinutes % frequency.TotalMinutes) < 0.000001);
+        return goodDate == null ? Enumerable.Empty<DateTimeOffset>() : dates.Where(current => Math.Abs((goodDate.Value - current).TotalMinutes % frequency.TotalMinutes) < 0.000001);
     }
 
 
@@ -157,6 +160,7 @@ public static class DateTimeHelper
     /// <returns>The first date that matches the frequency, or null if none match.</returns>
     private static DateTimeOffset? GetFirstGoodDateInFrequency(IEnumerable<DateTimeOffset> dates, TimeSpan frequency)
     {
+        dates = dates.ToList();
         foreach (var current in dates)
         {
             foreach (var nextDate in dates)

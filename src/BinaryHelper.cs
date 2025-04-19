@@ -49,7 +49,7 @@ public static class BinaryHelper
     /// <returns>True if the bit at the specified position is 1, otherwise false.</returns>
     public static bool GetBitValue(this long value, int position)
     {
-        if (position < 0 || position >= 64)
+        if (position is < 0 or >= 64)
         {
             throw new ArgumentOutOfRangeException(nameof(position), "Position must be between 0 and 63 for a 64-bit value.");
         }
@@ -65,7 +65,7 @@ public static class BinaryHelper
     /// <returns>True if the bit at the specified position is 1, otherwise false.</returns>
     public static bool GetBitValue(this int value, int position)
     {
-        if (position < 0 || position >= 32)
+        if (position is < 0 or >= 32)
         {
             throw new ArgumentOutOfRangeException(nameof(position), "Position must be between 0 and 31 for a 32-bit value.");
         }
@@ -81,7 +81,7 @@ public static class BinaryHelper
     /// <returns>True if the bit at the specified position is 1, otherwise false.</returns>
     public static bool GetBitValue(this short value, int position)
     {
-        if (position < 0 || position >= 16)
+        if (position is < 0 or >= 16)
         {
             throw new ArgumentOutOfRangeException(nameof(position), "Position must be between 0 and 15 for a 16-bit value.");
         }
@@ -95,16 +95,17 @@ public static class BinaryHelper
     /// <param name="value">The long value to evaluate.</param>
     /// <param name="startBitPosition">The start position of the bit range (0-based from right).</param>
     /// <param name="endBitPosition">The end position of the bit range (0-based from right).</param>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     /// <returns>An integer value from the specified range of bits.</returns>
     public static int GetBitsValue(this long value, int startBitPosition, int endBitPosition)
     {
         if (startBitPosition < 0 || endBitPosition > 64 || startBitPosition >= endBitPosition)
         {
-            throw new ArgumentOutOfRangeException("Start and end positions must be within the range of the 64-bit value, and start must be less than end.");
+            throw new ArgumentOutOfRangeException($"Start and end positions must be within the range of the 64-bit value, and start must be less than end.");
         }
 
-        int length = endBitPosition - startBitPosition;
-        long mask = (1L << length) - 1;
+        var length = endBitPosition - startBitPosition;
+        var mask = (1L << length) - 1;
         return (int)((value >> startBitPosition) & mask);
     }
 

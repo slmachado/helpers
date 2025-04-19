@@ -78,7 +78,7 @@ public static class NetworkHelper
         {
             using var pinger = new Ping();
             var reply = pinger.Send(host);
-            return reply != null && reply.Status == IPStatus.Success;
+            return reply is { Status: IPStatus.Success };
         }
         catch (PingException)
         {
@@ -101,7 +101,7 @@ public static class NetworkHelper
         {
             using var pinger = new Ping();
             var reply = await pinger.SendPingAsync(host);
-            return reply != null && reply.Status == IPStatus.Success;
+            return reply.Status == IPStatus.Success;
         }
         catch (PingException)
         {

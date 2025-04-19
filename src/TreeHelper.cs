@@ -11,16 +11,12 @@ public static class TreeHelper
     /// <returns></returns>
     public static IEnumerable<T> GetAllNodes<T>(T treeNode, Func<T,IEnumerable<T>> getChildren )
     {
-        List<T> result = new List<T>();
-        result.Add(treeNode);
+        List<T> result = new List<T> { treeNode };
 
         var children = getChildren(treeNode);
-        if (children != null)
+        foreach (T child in children)
         {
-            foreach (T child in children)
-            {
-                result.AddRange(GetAllNodes(child, getChildren));
-            }
+            result.AddRange(GetAllNodes(child, getChildren));
         }
         return result;
     }
@@ -34,27 +30,22 @@ public static class TreeHelper
     /// <param name="condition"></param>
     /// <param name="action"></param>
     /// <param name="elseAction"></param>
-    public static void DoActionOnCondition<T>(T treeNode,  Func<T,IEnumerable<T>> getChildren , Func<T, bool> condition, Action<T> action,  Action<T>? elseAction = null)
+    public static void DoActionOnCondition<T>(T treeNode,  Func<T,IEnumerable<T>> getChildren , Func<T, bool>? condition, Action<T>? action,  Action<T>? elseAction = null)
     {
-        if (treeNode != null  && condition != null && action != null)
+        if (treeNode == null || condition == null || action == null) return;
+        if (condition(treeNode))
         {
-            if (condition(treeNode))
-            {
-                action(treeNode);
-            }
-            else if (elseAction != null)
-            {
-                elseAction(treeNode);
-            }
+            action(treeNode);
+        }
+        else if (elseAction != null)
+        {
+            elseAction(treeNode);
+        }
 
-            var children = getChildren(treeNode);
-            if (children != null)
-            {
-                foreach (T child in children)
-                {
-                    DoActionOnCondition(child, getChildren, condition, action, elseAction);
-                }
-            }
+        var children = getChildren(treeNode);
+        foreach (T child in children)
+        {
+            DoActionOnCondition(child, getChildren, condition, action, elseAction);
         }
 
     }
@@ -63,7 +54,7 @@ public static class TreeHelper
     /// <summary>
     /// Get site tree
     /// </summary>
-    /// <typeparam name="P"></typeparam>
+    /// <typeparam name="TP"></typeparam>
     /// <typeparam name="T"></typeparam>
     /// <param name="rootId"></param>
     /// <param name="items"></param>
@@ -71,31 +62,24 @@ public static class TreeHelper
     /// <param name="parentId"></param>
     /// <param name="children"></param>
     /// <returns></returns>
-    public static T? GetTree<P, T>(P rootId, IEnumerable<T> items, Func<T, P> id, Func<T, P?> parentId, Func<T, IList<T>> children) where T : class where P : struct
+    public static T? GetTree<TP, T>(TP rootId, IEnumerable<T>? items, Func<T, TP> id, Func<T, TP?> parentId, Func<T, IList<T>> children) where T : class where TP : struct
     {
-        if (items != null && items.Any())
+        if (items == null) return null;
+        var enumerable = items as T[] ?? items.ToArray();
+        if (!enumerable.Any()) return null;
+        var assets = enumerable.ToDictionary(id);
+
+        var assetsGrouped = assets.Values.GroupBy(parentId);
+        foreach (var assetGroup in assetsGrouped)
         {
-            var assets = items.ToDictionary(id);
-
-            var assetsGrouped = assets.Values.GroupBy(parentId);
-            foreach (var assetGroup in assetsGrouped)
+            if (!assetGroup.Key.HasValue) continue;
+            var asset = assets[assetGroup.Key.Value];
+            foreach (var child in assetGroup)
             {
-                if (assetGroup.Key.HasValue)
-                {
-                    var asset = assets[assetGroup.Key.Value];
-                    foreach (var child in assetGroup)
-                    {
-                        children(asset).Add(child);
-                    }
-                }
-            }
-
-            if (assets.ContainsKey(rootId))
-            {
-                return assets[rootId];
+                children(asset).Add(child);
             }
         }
 
-        return null;
+        return assets.GetValueOrDefault(rootId);
     }
 }
