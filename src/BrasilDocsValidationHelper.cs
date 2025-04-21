@@ -72,8 +72,8 @@ namespace Helpers
             if (cpf.Length != 11 || IsRepeatedDigits(cpf))
                 return false;
 
-            string tempCpf = cpf.Substring(0, 9);
-            string digito = CalculateChecksum(tempCpf, new[] { 10, 9, 8, 7, 6, 5, 4, 3, 2 }).ToString();
+            var tempCpf = cpf[..9];
+            var digito = CalculateChecksum(tempCpf, new[] { 10, 9, 8, 7, 6, 5, 4, 3, 2 }).ToString();
 
             tempCpf += digito;
             digito += CalculateChecksum(tempCpf, new[] { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 }).ToString();
