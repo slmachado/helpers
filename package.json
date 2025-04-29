@@ -1,6 +1,6 @@
 {
   "name": "helpers",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "description": "Helpers reutilizáveis para .NET, incluindo suporte a ChannelQueue, workers e extensões utilitárias.",
   "main": "index.js",
   "directories": {
