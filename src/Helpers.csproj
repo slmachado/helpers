@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <PackageId>cs-helpers</PackageId>
-    <Version>1.0.2</Version>
+    <Version>1.1.7</Version>
     <Authors>Sergio Machado</Authors>
     <Description>Helpers para threading, validações e extensões</Description>
     <ImplicitUsings>enable</ImplicitUsings>
