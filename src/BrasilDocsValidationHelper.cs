@@ -6,9 +6,9 @@ namespace Helpers
     /// <summary>
     /// Helper class for validating Brazilian documents such as CPF, CNPJ, PIS, and CEP.
     /// </summary>
-    public static class BrasilDocsValidationHelper
+    public static partial class BrasilDocsValidationHelper
     {
-        private static readonly Regex OnlyDigitsRegex = new Regex(@"\D", RegexOptions.Compiled);
+        private static readonly Regex OnlyDigitsRegex = MyRegex();
 
         /// <summary>
         /// Validates a Brazilian CEP (postal code).
@@ -34,10 +34,10 @@ namespace Helpers
                 return false;
 
             var tempCnpj = cnpj.Substring(0, 12);
-            var digito = CalculateChecksum(tempCnpj, new[] { 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 }).ToString();
+            var digito = CalculateChecksum(tempCnpj, [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]).ToString();
 
             tempCnpj += digito;
-            digito += CalculateChecksum(tempCnpj, new[] { 6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 }).ToString();
+            digito += CalculateChecksum(tempCnpj, [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]).ToString();
 
             return cnpj.EndsWith(digito);
         }
@@ -54,7 +54,7 @@ namespace Helpers
             if (pis.Length != 11 || IsRepeatedDigits(pis))
                 return false;
 
-            var checksum = CalculateChecksum(pis.Substring(0, 10), new[] { 3, 2, 9, 8, 7, 6, 5, 4, 3, 2 });
+            var checksum = CalculateChecksum(pis.Substring(0, 10), [3, 2, 9, 8, 7, 6, 5, 4, 3, 2]);
             var expectedDigit = (checksum % 11) < 2 ? 0 : 11 - (checksum % 11);
 
             return pis.EndsWith(expectedDigit.ToString());
@@ -73,10 +73,10 @@ namespace Helpers
                 return false;
 
             var tempCpf = cpf[..9];
-            var digito = CalculateChecksum(tempCpf, new[] { 10, 9, 8, 7, 6, 5, 4, 3, 2 }).ToString();
+            var digito = CalculateChecksum(tempCpf, [10, 9, 8, 7, 6, 5, 4, 3, 2]).ToString();
 
             tempCpf += digito;
-            digito += CalculateChecksum(tempCpf, new[] { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2 }).ToString();
+            digito += CalculateChecksum(tempCpf, [11, 10, 9, 8, 7, 6, 5, 4, 3, 2]).ToString();
 
             return cpf.EndsWith(digito);
         }
@@ -118,5 +118,8 @@ namespace Helpers
         {
             return document.Distinct().Count() == 1;
         }
+
+        [GeneratedRegex(@"\D", RegexOptions.Compiled)]
+        private static partial Regex MyRegex();
     }
 }

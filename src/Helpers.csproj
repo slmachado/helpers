@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <PackageId>cs-helpers</PackageId>
-    <Version>1.1.7</Version>
+    <Version>1.1.9</Version>
     <Authors>Sergio Machado</Authors>
     <Description>Helpers para threading, validações e extensões</Description>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -13,12 +13,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Extensions\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="System.Threading.Channels" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />	
   </ItemGroup>
 
 </Project>
