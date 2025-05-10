@@ -1,0 +1,21 @@
+# IDE e Editor
+.idea/
+*.sln.DotSettings.user
+
+# Build Artifacts
+build.sh
+
+# Node Modules
+node_modules/
+
+# Python e Scripts
+scripts/
+
+# Office Files
+*.docx
+
+# Outros
+package-lock.json
+package.json
+global.json
+
