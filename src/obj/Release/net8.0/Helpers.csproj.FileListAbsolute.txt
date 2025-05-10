@@ -1,0 +1,13 @@
+/home/sergio/Code/helpers/src/bin/Release/net8.0/Helpers.deps.json
+/home/sergio/Code/helpers/src/bin/Release/net8.0/Helpers.dll
+/home/sergio/Code/helpers/src/bin/Release/net8.0/Helpers.pdb
+/home/sergio/Code/helpers/src/obj/Release/net8.0/Helpers.csproj.AssemblyReference.cache
+/home/sergio/Code/helpers/src/obj/Release/net8.0/Helpers.GeneratedMSBuildEditorConfig.editorconfig
+/home/sergio/Code/helpers/src/obj/Release/net8.0/Helpers.AssemblyInfoInputs.cache
+/home/sergio/Code/helpers/src/obj/Release/net8.0/Helpers.AssemblyInfo.cs
+/home/sergio/Code/helpers/src/obj/Release/net8.0/Helpers.csproj.CoreCompileInputs.cache
+/home/sergio/Code/helpers/src/obj/Release/net8.0/Helpers.sourcelink.json
+/home/sergio/Code/helpers/src/obj/Release/net8.0/Helpers.dll
+/home/sergio/Code/helpers/src/obj/Release/net8.0/refint/Helpers.dll
+/home/sergio/Code/helpers/src/obj/Release/net8.0/Helpers.pdb
+/home/sergio/Code/helpers/src/obj/Release/net8.0/ref/Helpers.dll

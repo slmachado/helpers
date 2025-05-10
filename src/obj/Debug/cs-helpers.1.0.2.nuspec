@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>cs-helpers</id>
+    <version>1.0.2</version>
+    <authors>Sergio Machado</authors>
+    <description>Helpers para threading, validações e extensões</description>
+    <repository type="git" commit="4a053cf8a6f9e829d2ac13e37275ad12a9642270" />
+    <dependencies>
+      <group targetFramework="net8.0">
+        <dependency id="Microsoft.Extensions.Hosting" version="8.0.1" exclude="Build,Analyzers" />
+        <dependency id="System.Threading.Channels" version="8.0.0" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="/home/sergio/Code/helpers/src/bin/Debug/net8.0/Helpers.dll" target="lib/net8.0/Helpers.dll" />
+  </files>
+</package>
