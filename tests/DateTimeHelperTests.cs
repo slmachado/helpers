@@ -77,8 +77,13 @@ public class DateTimeHelperTests
         // Act
         var firstDayOfWeek = date.GetFirstDayOfWeek();
 
-        // Assert
-        firstDayOfWeek.Should().Be(new DateTime(2023, 12, 31)); // Assuming the first day of the week is Sunday
+        // Assert — compute expected dynamically to be culture-agnostic
+        var expected = date;
+        var firstDay = System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.FirstDayOfWeek;
+        while (expected.DayOfWeek != firstDay)
+            expected = expected.AddDays(-1);
+
+        firstDayOfWeek.Should().Be(expected);
     }
 
     [Fact]
