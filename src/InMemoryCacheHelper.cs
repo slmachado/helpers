@@ -7,7 +7,7 @@ namespace Helpers;
 public sealed class InMemoryCacheHelper : IDisposable
 {
     private readonly Dictionary<string, CacheEntry> _cache = new();
-    private readonly Lock _lock = new();
+    private readonly object _lock = new();
     private readonly Timer _evictionTimer;
 
     /// <param name="evictionIntervalSeconds">How often expired entries are purged (default: 60s).</param>

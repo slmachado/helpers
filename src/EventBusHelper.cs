@@ -7,7 +7,7 @@ namespace Helpers;
 public sealed class EventBusHelper
 {
     private readonly Dictionary<Type, List<Delegate>> _handlers = new();
-    private readonly Lock _lock = new();
+    private readonly object _lock = new();
 
     /// <summary>
     /// Subscribes a synchronous handler to events of type <typeparamref name="TEvent"/>.

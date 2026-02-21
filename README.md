@@ -219,5 +219,10 @@ helpers/
 - ✅ Nullable habilitado (`#nullable enable`)
 - ✅ `[GeneratedRegex]` utilizado em `BrasilDocsValidationHelper` para melhor performance
 - ✅ API fluente via extension methods em toda a biblioteca
-- ✅ Infraestrutura assíncrona pronta para uso: `ChannelQueue` + `BaseChannelWorker`
+- ✅ Infraestrutura assíncrona pronta para uso: `ChannelQueue` + `BaseChannelWorker` + `BackgroundTaskQueue`
+- ✅ Resiliência embutida: `RetryHelper` (fixo + exponential backoff) + `CircuitBreakerHelper`
+- ✅ Cache in-memory sem dependência de DI: `InMemoryCacheHelper` com TTL e eviction automático
+- ✅ Pub/sub in-process leve e sem broker: `EventBusHelper`
+- ✅ Composição de pipelines: `PipelineBuilder<T>` com suporte a short-circuit
+- ✅ Controle de taxa: `RateLimiterHelper` (token bucket, thread-safe)
 - ✅ Pacote NuGet gerado automaticamente no build (`GeneratePackageOnBuild`)
