@@ -28,11 +28,15 @@ helpers/
 │   ├── EnumerableExtensions.cs
 │   ├── FileHelper.cs
 │   ├── FloatingNumberHelper.cs
+│   ├── GuidHelper.cs
+│   ├── JsonHelper.cs
 │   ├── MathHelper.cs
 │   ├── NameOfHelper.cs
 │   ├── NetworkHelper.cs
 │   ├── NumericHelper.cs
+│   ├── PasswordHelper.cs
 │   ├── RegExValidation.cs
+│   ├── RetryHelper.cs
 │   ├── SSLHelper.cs
 │   ├── SerializationHelper.cs
 │   ├── StreamHelper.cs
@@ -59,11 +63,15 @@ helpers/
     ├── EnumerableExtensionsTests.cs
     ├── FileHelperTests.cs
     ├── FloatingNumberHelperTests.cs
+    ├── GuidHelperTests.cs
+    ├── JsonHelperTests.cs
     ├── MathHelperTests.cs
     ├── NameOfHelperTests.cs
     ├── NetworkHelperTests.cs
     ├── NumericHelperTests.cs
+    ├── PasswordHelperTests.cs
     ├── RegExValidationTests.cs
+    ├── RetryHelperTests.cs
     ├── SerializationHelperTests.cs
     ├── SslHelperTests.cs
     ├── StreamHelperTests.cs
@@ -91,11 +99,15 @@ helpers/
 | `EnumerableExtensions` | Extensões de coleções: `HasData`, `IsEmpty`, `ForEach`, `ChunkBy`, `DistinctBy`, `Shuffle`, `Partition`, `FindItemWithNeighbors`, `ToCommaSeparatedString` |
 | `FileHelper` | Operações com arquivos |
 | `FloatingNumberHelper` | Operações com ponto flutuante |
+| `GuidHelper` | Validação, short GUID Base64 URL-safe, parse seguro e geração sequencial |
+| `JsonHelper` | `TryDeserialize`, `Prettify`, `Minify`, `Merge`, `SerializeCamelCase`, `TryGetProperty`, `Flatten` |
 | `MathHelper` | Operações matemáticas |
 | `NameOfHelper` | Helper para `nameof` |
 | `NetworkHelper` | Operações de rede |
 | `NumericHelper` | Operações numéricas |
+| `PasswordHelper` | Geração segura de senhas, validação de força, score e hash SHA256 |
 | `RegExValidation` | Validações via Regex |
+| `RetryHelper` | Política de retentativa: `Execute`, `ExecuteAsync`, `ExecuteWithExponentialBackoffAsync` |
 | `SerializationHelper` | Serialização/desserialização de objetos |
 | `SSLHelper` | Auxiliares SSL |
 | `StreamHelper` | Operações com streams |
@@ -124,7 +136,7 @@ helpers/
 ## Testes
 
 - **Framework:** xUnit 2.5.3 + FluentAssertions 6.12.1 + Coverlet
-- **22 arquivos de teste** — um por helper, com cobertura 1:1
+- **26 arquivos de teste** — um por helper, com cobertura 1:1
 
 | Classe de Teste | Helper Testado |
 |----------------|----------------|
@@ -137,11 +149,15 @@ helpers/
 | `EnumerableExtensionsTests` | `EnumerableExtensions` |
 | `FileHelperTests` | `FileHelper` |
 | `FloatingNumberHelperTests` | `FloatingNumberHelper` |
+| `GuidHelperTests` | `GuidHelper` |
+| `JsonHelperTests` | `JsonHelper` |
 | `MathHelperTests` | `MathHelper` |
 | `NameOfHelperTests` | `NameOfHelper` |
 | `NetworkHelperTests` | `NetworkHelper` |
 | `NumericHelperTests` | `NumericHelper` |
+| `PasswordHelperTests` | `PasswordHelper` |
 | `RegExValidationTests` | `RegExValidation` |
+| `RetryHelperTests` | `RetryHelper` |
 | `SerializationHelperTests` | `SerializationHelper` |
 | `SslHelperTests` | `SSLHelper` |
 | `StreamHelperTests` | `StreamHelper` |
