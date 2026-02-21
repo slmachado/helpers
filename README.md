@@ -48,10 +48,16 @@ helpers/
 │   ├── Extensions/
 │   │   ├── CurrencyExtensions.cs
 │   │   └── NullSafeExtensions.cs
-│   └── Threading/
-│       └── Channels/
-│           ├── BaseChannelWorker.cs
-│           └── ChannelQueue.cs
+│   ├── Threading/
+│   │   └── Channels/
+│   │       ├── BaseChannelWorker.cs
+│   │       └── ChannelQueue.cs
+│   ├── BackgroundTaskQueue.cs
+│   ├── CircuitBreakerHelper.cs
+│   ├── EventBusHelper.cs
+│   ├── InMemoryCacheHelper.cs
+│   ├── PipelineBuilder.cs
+│   └── RateLimiterHelper.cs
 └── tests/
     ├── Helpers.Tests.csproj
     ├── Base64HelperTests.cs
@@ -79,7 +85,14 @@ helpers/
     ├── TimeSeriesHelperTests.cs
     ├── TreeHelperTests.cs
     ├── UnitHelperTests.cs
-    └── UriHelperTests.cs
+    ├── UriHelperTests.cs
+    │
+    ├── BackgroundTaskQueueTests.cs
+    ├── CircuitBreakerHelperTests.cs
+    ├── EventBusHelperTests.cs
+    ├── InMemoryCacheHelperTests.cs
+    ├── PipelineBuilderTests.cs
+    └── RateLimiterHelperTests.cs
 ```
 
 ---
@@ -131,12 +144,23 @@ helpers/
 | `BaseChannelWorker<T>` | Worker base (`BackgroundService`) que consome a fila com isolamento de escopo via DI |
 | `ChannelQueue<T>` | Fila assíncrona com `System.Threading.Channels` — capacidade configurável, modo `Wait` quando cheia |
 
+### Patterns Arquiteturais (`namespace Helpers`)
+
+| Classe | Descrição |
+|--------|-----------|
+| `BackgroundTaskQueue` | Fila thread-safe de delegates `async` para background jobs. `EnqueueAsync`, `DequeueAsync`, `ReadAllAsync` |
+| `CircuitBreakerHelper` | Padrão circuit breaker com estados `Closed`/`Open`/`HalfOpen`, threshold e duração configuráveis |
+| `EventBusHelper` | Pub/sub in-process com handlers sync e async. `Subscribe`, `Publish`, `PublishAsync`, `Unsubscribe` |
+| `InMemoryCacheHelper` | Cache in-memory com TTL por entrada, `GetOrSet` sync/async, `Invalidate` por chave e prefixo |
+| `PipelineBuilder<T>` | Encadeia middlewares async sobre um contexto genérico. `Use`, `UseTerminal`, `Build`, `ExecuteAsync` |
+| `RateLimiterHelper` | Token bucket thread-safe. `TryAcquire`, `Execute` sync/async, reabastecimento automático |
+
 ---
 
 ## Testes
 
 - **Framework:** xUnit 2.5.3 + FluentAssertions 6.12.1 + Coverlet
-- **26 arquivos de teste** — um por helper, com cobertura 1:1
+- **32 arquivos de teste** — um por helper, com cobertura 1:1
 
 | Classe de Teste | Helper Testado |
 |----------------|----------------|
@@ -166,6 +190,13 @@ helpers/
 | `TreeHelperTests` | `TreeHelper` |
 | `UnitHelperTests` | `UnitHelper` |
 | `UriHelperTests` | `UriHelper` |
+| **Patterns Arquiteturais** | |
+| `BackgroundTaskQueueTests` | `BackgroundTaskQueue` |
+| `CircuitBreakerHelperTests` | `CircuitBreakerHelper` |
+| `EventBusHelperTests` | `EventBusHelper` |
+| `InMemoryCacheHelperTests` | `InMemoryCacheHelper` |
+| `PipelineBuilderTests` | `PipelineBuilder<T>` |
+| `RateLimiterHelperTests` | `RateLimiterHelper` |
 
 ---
 
