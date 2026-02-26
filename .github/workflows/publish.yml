@@ -29,8 +29,12 @@ jobs:
       run: dotnet restore
       working-directory: ./src
 
-    - name: Build and Pack
-      run: dotnet pack -c Release -o out
+    - name: Build
+      run: dotnet build -c Release
+      working-directory: ./src
+
+    - name: Pack
+      run: dotnet pack -c Release --no-build -o out
       working-directory: ./src
 
     - name: Publish to GitHub Packages
