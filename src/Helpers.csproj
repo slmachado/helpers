@@ -3,13 +3,15 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <PackageId>cs-helpers</PackageId>
-    <Version>1.1.9</Version>
+    <Version>1.1.10</Version>
     <Authors>Sergio Machado</Authors>
     <Description>Helpers para threading, validações e extensões</Description>
     <RepositoryUrl>https://github.com/slmachado/helpers</RepositoryUrl>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
     <LangVersion>12</LangVersion>
   </PropertyGroup>
 
