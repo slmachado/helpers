@@ -224,5 +224,45 @@ helpers/
 - ✅ Cache in-memory sem dependência de DI: `InMemoryCacheHelper` com TTL e eviction automático
 - ✅ Pub/sub in-process leve e sem broker: `EventBusHelper`
 - ✅ Composição de pipelines: `PipelineBuilder<T>` com suporte a short-circuit
-- ✅ Controle de taxa: `RateLimiterHelper` (token bucket, thread-safe)
+- ✅ Função RateLimiter (Token Bucket) (`RateLimiterHelper`) thread-safe.
 - ✅ Pacote NuGet gerado automaticamente no build (`GeneratePackageOnBuild`)
+
+---
+
+## Como consumir o pacote privado (GitHub Packages)
+
+Este pacote é publicado de forma privada no GitHub Packages associado à conta/organização `slmachado`. Para consumir o pacote `cs-helpers` nos seus projetos locais ou em pipelines de CI, siga os passos abaixo:
+
+### 1. Gerar um Personal Access Token (PAT)
+Você precisa de um token do GitHub com a permissão `read:packages`.
+- Vá para: GitHub -> Settings -> Developer settings -> Personal access tokens -> Tokens (classic) -> Generate new token (classic).
+- Marque o escopo `read:packages`.
+- Copie o token gerado.
+
+### 2. Configurar o nuget.config no seu repositório local
+Na raiz do seu projeto ou solução que irá consumir o pacote `cs-helpers`, crie ou edite o arquivo `nuget.config` e defina as credenciais:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <packageSources>
+    <clear />
+    <add key="nuget.org" value="https://api.nuget.org/v3/index.json" protocolVersion="3" />
+    <add key="slmachado" value="https://nuget.pkg.github.com/slmachado/index.json" />
+  </packageSources>
+  <packageSourceCredentials>
+    <slmachado>
+      <add key="Username" value="SEU_USUARIO_DO_GITHUB" />
+      <add key="ClearTextPassword" value="SEU_PAT_COM_READ_PACKAGES" />
+    </slmachado>
+  </packageSourceCredentials>
+</configuration>
+```
+
+> ⚠️ **Atenção:** Certifique-se de adicionar `nuget.config` ao seu `.gitignore` caso ele contenha senhas em texto claro (como o seu PAT local de máquina), ou utilize a CLI do NuGet / variáveis de ambiente em esteiras de CI. Para pipelines de CI locais, substitua o PAT pela variável de ambiente com o secret apropriado.
+
+### 3. Instalar o pacote
+Depois de configurar o feed, você pode adicionar o pacote normalmente usando o CLI do .NET:
+```bash
+dotnet add package cs-helpers
+```

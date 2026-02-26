@@ -6,6 +6,7 @@
     <Version>1.1.9</Version>
     <Authors>Sergio Machado</Authors>
     <Description>Helpers para threading, validações e extensões</Description>
+    <RepositoryUrl>https://github.com/slmachado/helpers</RepositoryUrl>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>

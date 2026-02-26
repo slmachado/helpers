@@ -226,3 +226,43 @@ helpers/
 - ✅ Pipeline composition: `PipelineBuilder<T>` with short-circuit support
 - ✅ Rate control: `RateLimiterHelper` (token bucket, thread-safe)
 - ✅ NuGet package automatically generated on build (`GeneratePackageOnBuild`)
+
+---
+
+## How to consume the private package (GitHub Packages)
+
+This package is published privately to GitHub Packages associated with the `slmachado` account/organization. To consume the `cs-helpers` package in your local projects or CI pipelines, follow the steps below:
+
+### 1. Generate a Personal Access Token (PAT)
+You need a GitHub token with the `read:packages` permission.
+- Go to: GitHub -> Settings -> Developer settings -> Personal access tokens -> Tokens (classic) -> Generate new token (classic).
+- Check the `read:packages` scope.
+- Copy the generated token.
+
+### 2. Configure nuget.config in your local repository
+In the root of your project or solution that will consume the `cs-helpers` package, create or edit the `nuget.config` file and define the credentials:
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <packageSources>
+    <clear />
+    <add key="nuget.org" value="https://api.nuget.org/v3/index.json" protocolVersion="3" />
+    <add key="slmachado" value="https://nuget.pkg.github.com/slmachado/index.json" />
+  </packageSources>
+  <packageSourceCredentials>
+    <slmachado>
+      <add key="Username" value="YOUR_GITHUB_USERNAME" />
+      <add key="ClearTextPassword" value="YOUR_PAT_WITH_READ_PACKAGES" />
+    </slmachado>
+  </packageSourceCredentials>
+</configuration>
+```
+
+> ⚠️ **Warning:** Make sure to add `nuget.config` to your `.gitignore` if it contains plain text passwords (like your local machine PAT), or use the NuGet CLI / environment variables in CI pipelines. For CI pipelines, replace the PAT with the appropriate environment variable or secret.
+
+### 3. Install the package
+After configuring the feed, you can install the package normally using the .NET CLI:
+```bash
+dotnet add package cs-helpers
+```
