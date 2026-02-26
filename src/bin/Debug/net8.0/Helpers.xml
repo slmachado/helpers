@@ -1,0 +1,2215 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Helpers</name>
+    </assembly>
+    <members>
+        <member name="T:Helpers.BackgroundTaskQueue">
+            <summary>
+            A thread-safe queue for scheduling background work items as async delegates.
+            Intended to be registered as a singleton and consumed by a hosted background service.
+            </summary>
+        </member>
+        <member name="M:Helpers.BackgroundTaskQueue.#ctor(System.Int32)">
+            <param name="capacity">Maximum number of pending tasks. Defaults to 100.</param>
+        </member>
+        <member name="M:Helpers.BackgroundTaskQueue.EnqueueAsync(System.Func{System.Threading.CancellationToken,System.Threading.Tasks.ValueTask},System.Threading.CancellationToken)">
+            <summary>
+            Enqueues a work item to be executed in the background.
+            </summary>
+            <param name="workItem">The async work item to enqueue.</param>
+            <param name="cancellationToken">Cancellation token.</param>
+        </member>
+        <member name="M:Helpers.BackgroundTaskQueue.DequeueAsync(System.Threading.CancellationToken)">
+            <summary>
+            Dequeues and returns the next available work item, waiting if the queue is empty.
+            </summary>
+            <param name="cancellationToken">Cancellation token.</param>
+        </member>
+        <member name="P:Helpers.BackgroundTaskQueue.PendingCount">
+            <summary>
+            Returns the count of pending items currently in the queue.
+            </summary>
+        </member>
+        <member name="M:Helpers.BackgroundTaskQueue.Complete">
+            <summary>
+            Signals that no more items will be enqueued.
+            </summary>
+        </member>
+        <member name="M:Helpers.BackgroundTaskQueue.ReadAllAsync(System.Threading.CancellationToken)">
+            <summary>
+            Reads all pending work items as an async enumerable.
+            </summary>
+        </member>
+        <member name="T:Helpers.Base64Helper">
+            <summary>
+            Provides methods for working with Base64 encoding and decoding.
+            </summary>
+        </member>
+        <member name="M:Helpers.Base64Helper.SafeConvertFromBase64String(System.String)">
+            <summary>
+            Safely decodes a Base64-encoded string into a byte array.
+            <para>
+            The method replaces URL-safe characters ('-' and '_') with the standard Base64 characters ('+' and '/').
+            It then ensures that the string length is a multiple of 4 by appending '=' padding characters as necessary.
+            </para>
+            <para>
+            If the input string is null, empty, or consists only of white spaces, the method returns an empty byte array.
+            In case of any errors during the decoding process (e.g., if the input is not valid Base64), the method also returns an empty byte array.
+            </para>
+            </summary>
+            <param name="input">The Base64-encoded string to decode.</param>
+            <returns>A byte array representing the decoded data, or an empty byte array if the input is invalid or an error occurs.</returns>
+        </member>
+        <member name="M:Helpers.Base64Helper.EncodeToBase64String(System.Byte[])">
+            <summary>
+            Encodes a byte array into a Base64-encoded string.
+            </summary>
+            <param name="input">The byte array to encode.</param>
+            <returns>A Base64-encoded string representing the input byte array, or an empty string if the input is null or empty.</returns>
+        </member>
+        <member name="M:Helpers.Base64Helper.ConvertFromBase64String(System.String,System.Boolean)">
+            <summary>
+            Decodes a Base64-encoded string into a byte array with an option to throw an exception if the input is invalid.
+            </summary>
+            <param name="input">The Base64-encoded string to decode.</param>
+            <param name="throwOnInvalidInput">If set to true, throws an exception when the input is invalid.</param>
+            <returns>A byte array representing the decoded data, or an empty byte array if the input is invalid and <paramref name="throwOnInvalidInput"/> is false.</returns>
+            <exception cref="T:System.FormatException">Thrown if the input is not a valid Base64 string and <paramref name="throwOnInvalidInput"/> is true.</exception>
+        </member>
+        <member name="T:Helpers.BinaryHelper">
+            <summary>
+            Provides utility methods for working with binary representations of numeric values.
+            </summary>
+        </member>
+        <member name="M:Helpers.BinaryHelper.ToBinary(System.Int64)">
+            <summary>
+            Converts a long value to a 64-bit binary string.
+            </summary>
+            <param name="value">The long value to convert to a binary string.</param>
+            <returns>A 64-bit binary string representation of the specified long value.</returns>
+        </member>
+        <member name="M:Helpers.BinaryHelper.ToBinary(System.Int32)">
+            <summary>
+            Converts an integer value to a 32-bit binary string.
+            </summary>
+            <param name="value">The integer value to convert to a binary string.</param>
+            <returns>A 32-bit binary string representation of the specified integer value.</returns>
+        </member>
+        <member name="M:Helpers.BinaryHelper.ToBinary(System.Int16)">
+            <summary>
+            Converts a short value to a 16-bit binary string.
+            </summary>
+            <param name="value">The short value to convert to a binary string.</param>
+            <returns>A 16-bit binary string representation of the specified short value.</returns>
+        </member>
+        <member name="M:Helpers.BinaryHelper.GetBitValue(System.Int64,System.Int32)">
+            <summary>
+            Gets the boolean value from a specific bit position in a long value using bitwise operations.
+            </summary>
+            <param name="value">The long value to evaluate.</param>
+            <param name="position">The position of the bit to evaluate (0-based from right).</param>
+            <returns>True if the bit at the specified position is 1, otherwise false.</returns>
+        </member>
+        <member name="M:Helpers.BinaryHelper.GetBitValue(System.Int32,System.Int32)">
+            <summary>
+            Gets the boolean value from a specific bit position in an integer value using bitwise operations.
+            </summary>
+            <param name="value">The integer value to evaluate.</param>
+            <param name="position">The position of the bit to evaluate (0-based from right).</param>
+            <returns>True if the bit at the specified position is 1, otherwise false.</returns>
+        </member>
+        <member name="M:Helpers.BinaryHelper.GetBitValue(System.Int16,System.Int32)">
+            <summary>
+            Gets the boolean value from a specific bit position in a short value using bitwise operations.
+            </summary>
+            <param name="value">The short value to evaluate.</param>
+            <param name="position">The position of the bit to evaluate (0-based from right).</param>
+            <returns>True if the bit at the specified position is 1, otherwise false.</returns>
+        </member>
+        <member name="M:Helpers.BinaryHelper.GetBitsValue(System.Int64,System.Int32,System.Int32)">
+            <summary>
+            Gets the integer value from a specific bit range in a long value.
+            </summary>
+            <param name="value">The long value to evaluate.</param>
+            <param name="startBitPosition">The start position of the bit range (0-based from right).</param>
+            <param name="endBitPosition">The end position of the bit range (0-based from right).</param>
+            <exception cref="T:System.ArgumentOutOfRangeException"></exception>
+            <returns>An integer value from the specified range of bits.</returns>
+        </member>
+        <member name="M:Helpers.BinaryHelper.SetBitValue(System.Int64,System.Int32,System.Boolean)">
+            <summary>
+            Sets a specific bit in a long value to 1 or 0.
+            </summary>
+            <param name="value">The long value to modify.</param>
+            <param name="position">The position of the bit to set (0-based from right).</param>
+            <param name="bitValue">The value to set the bit to (true for 1, false for 0).</param>
+            <returns>A long value with the specified bit set to the given value.</returns>
+        </member>
+        <member name="M:Helpers.BinaryHelper.ToggleBitValue(System.Int64,System.Int32)">
+            <summary>
+            Toggles a specific bit in a long value.
+            </summary>
+            <param name="value">The long value to modify.</param>
+            <param name="position">The position of the bit to toggle (0-based from right).</param>
+            <returns>A long value with the specified bit toggled.</returns>
+        </member>
+        <member name="M:Helpers.BooleanHelper.GetBooleanIntValueFromString(System.String)">
+            <summary>
+            Converts a string value to an integer representation of a boolean (1 for true, 0 for false).
+            Throws an exception if the value cannot be parsed.
+            </summary>
+            <param name="value">The input string to convert.</param>
+            <returns>An integer representing the boolean value (0 or 1).</returns>
+            <exception cref="T:System.ArgumentException">Thrown when the input value is not a valid boolean.</exception>
+        </member>
+        <member name="M:Helpers.BooleanHelper.TryParseBooleanIntValueFromString(System.String,System.Int32@)">
+            <summary>
+            Attempts to parse a string value into an integer representation of a boolean (1 for true, 0 for false).
+            </summary>
+            <param name="value">The input string to parse.</param>
+            <param name="boolValue">The output integer representing the boolean value (0 or 1).</param>
+            <returns>True if parsing is successful; otherwise, false.</returns>
+        </member>
+        <member name="M:Helpers.BooleanHelper.GetBooleanFromString(System.String)">
+            <summary>
+            Converts a string value to a boolean. Throws an exception if the value cannot be parsed.
+            </summary>
+            <param name="value">The input string to convert.</param>
+            <returns>A boolean representation of the input value.</returns>
+            <exception cref="T:System.ArgumentException">Thrown when the input value is not a valid boolean representation.</exception>
+        </member>
+        <member name="M:Helpers.BooleanHelper.TryParseBooleanFromString(System.String,System.Boolean@)">
+            <summary>
+            Attempts to parse a string value into a boolean.
+            </summary>
+            <param name="value">The input string to parse.</param>
+            <param name="boolValue">The output boolean value.</param>
+            <returns>True if parsing is successful; otherwise, false.</returns>
+        </member>
+        <member name="M:Helpers.BooleanHelper.GetBooleanFromString(System.String,System.String,System.String)">
+            <summary>
+            Converts a string value to a boolean based on custom true/false string representations.
+            Throws an exception if the value cannot be parsed.
+            </summary>
+            <param name="value">The input string to convert.</param>
+            <param name="trueString">The string representation of true.</param>
+            <param name="falseString">The string representation of false.</param>
+            <returns>A boolean representation of the input value.</returns>
+            <exception cref="T:System.ArgumentException">Thrown when the input value is not a valid boolean representation.</exception>
+        </member>
+        <member name="M:Helpers.BooleanHelper.TryParseBooleanFromString(System.String,System.String,System.String,System.Boolean@)">
+            <summary>
+            Attempts to parse a string value into a boolean based on custom true/false string representations.
+            </summary>
+            <param name="value">The input string to parse.</param>
+            <param name="trueString">The string representation of true.</param>
+            <param name="falseString">The string representation of false.</param>
+            <param name="boolValue">The output boolean value.</param>
+            <returns>True if parsing is successful; otherwise, false.</returns>
+        </member>
+        <member name="M:Helpers.BooleanHelper.FormatBooleanToString(System.Boolean,System.String,System.String)">
+            <summary>
+            Formats a boolean value to a string representation based on input parameters.
+            </summary>
+            <param name="value">The boolean value to format.</param>
+            <param name="trueString">The string representation of true.</param>
+            <param name="falseString">The string representation of false.</param>
+            <returns>A string representation of the boolean value.</returns>
+        </member>
+        <member name="T:Helpers.BrasilDocsValidationHelper">
+            <summary>
+            Helper class for validating Brazilian documents such as CPF, CNPJ, PIS, and CEP.
+            </summary>
+        </member>
+        <member name="M:Helpers.BrasilDocsValidationHelper.IsValidCEP(System.String)">
+            <summary>
+            Validates a Brazilian CEP (postal code).
+            </summary>
+            <param name="cep">The CEP to validate.</param>
+            <returns>True if the CEP is valid; otherwise, false.</returns>
+        </member>
+        <member name="M:Helpers.BrasilDocsValidationHelper.IsValidCNPJ(System.String)">
+            <summary>
+            Validates a Brazilian CNPJ (Company Identifier).
+            </summary>
+            <param name="cnpj">The CNPJ to validate.</param>
+            <returns>True if the CNPJ is valid; otherwise, false.</returns>
+        </member>
+        <member name="M:Helpers.BrasilDocsValidationHelper.IsValidPIS(System.String)">
+            <summary>
+            Validates a Brazilian PIS (Social Integration Program).
+            </summary>
+            <param name="pis">The PIS to validate.</param>
+            <returns>True if the PIS is valid; otherwise, false.</returns>
+        </member>
+        <member name="M:Helpers.BrasilDocsValidationHelper.IsValidCPF(System.String)">
+            <summary>
+            Validates a Brazilian CPF (Individual Taxpayer Registry).
+            </summary>
+            <param name="cpf">The CPF to validate.</param>
+            <returns>True if the CPF is valid; otherwise, false.</returns>
+        </member>
+        <member name="M:Helpers.BrasilDocsValidationHelper.NormalizeDocument(System.String)">
+            <summary>
+            Normalizes a document string by removing non-digit characters.
+            </summary>
+            <param name="document">The document string to normalize.</param>
+            <returns>A string containing only digits.</returns>
+        </member>
+        <member name="M:Helpers.BrasilDocsValidationHelper.CalculateChecksum(System.String,System.Int32[])">
+            <summary>
+            Calculates the checksum for a given document using specified multipliers.
+            </summary>
+            <param name="input">The input string to calculate the checksum for.</param>
+            <param name="multipliers">The multipliers to use in the checksum calculation.</param>
+            <returns>The calculated checksum value.</returns>
+        </member>
+        <member name="M:Helpers.BrasilDocsValidationHelper.IsRepeatedDigits(System.String)">
+            <summary>
+            Checks if a document is composed of repeated digits.
+            </summary>
+            <param name="document">The document string to check.</param>
+            <returns>True if all characters are the same; otherwise, false.</returns>
+        </member>
+        <member name="M:Helpers.BrasilDocsValidationHelper.MyRegex">
+            <remarks>
+            Pattern:<br/>
+            <code>\\D</code><br/>
+            Options:<br/>
+            <code>RegexOptions.Compiled</code><br/>
+            Explanation:<br/>
+            <code>
+            ○ Match any character other than a Unicode digit.<br/>
+            </code>
+            </remarks>
+        </member>
+        <member name="T:Helpers.CircuitState">
+            <summary>
+            Represents the state of a circuit breaker.
+            </summary>
+        </member>
+        <member name="F:Helpers.CircuitState.Closed">
+            <summary>Requests are allowed through normally.</summary>
+        </member>
+        <member name="F:Helpers.CircuitState.Open">
+            <summary>Requests are blocked — too many recent failures.</summary>
+        </member>
+        <member name="F:Helpers.CircuitState.HalfOpen">
+            <summary>A single probe request is allowed to test recovery.</summary>
+        </member>
+        <member name="T:Helpers.CircuitBreakerHelper">
+            <summary>
+            Implements the Circuit Breaker pattern to prevent cascading failures.
+            Thread-safe via a lock.
+            </summary>
+        </member>
+        <member name="P:Helpers.CircuitBreakerHelper.State">
+            <summary>Gets the current circuit state.</summary>
+        </member>
+        <member name="M:Helpers.CircuitBreakerHelper.#ctor(System.Int32,System.Nullable{System.TimeSpan})">
+            <param name="failureThreshold">Number of consecutive failures before opening the circuit.</param>
+            <param name="openDuration">How long the circuit stays open before transitioning to HalfOpen.</param>
+        </member>
+        <member name="M:Helpers.CircuitBreakerHelper.Execute(System.Action)">
+            <summary>
+            Executes an action through the circuit breaker.
+            Throws <see cref="T:Helpers.CircuitOpenException"/> if the circuit is open.
+            </summary>
+        </member>
+        <member name="M:Helpers.CircuitBreakerHelper.Execute``1(System.Func{``0})">
+            <summary>
+            Executes a function through the circuit breaker and returns its result.
+            Throws <see cref="T:Helpers.CircuitOpenException"/> if the circuit is open.
+            </summary>
+        </member>
+        <member name="M:Helpers.CircuitBreakerHelper.ExecuteAsync(System.Func{System.Threading.Tasks.Task},System.Threading.CancellationToken)">
+            <summary>
+            Executes an async function through the circuit breaker.
+            Throws <see cref="T:Helpers.CircuitOpenException"/> if the circuit is open.
+            </summary>
+        </member>
+        <member name="M:Helpers.CircuitBreakerHelper.ExecuteAsync``1(System.Func{System.Threading.Tasks.Task{``0}},System.Threading.CancellationToken)">
+            <summary>
+            Executes an async function through the circuit breaker and returns its result.
+            </summary>
+        </member>
+        <member name="M:Helpers.CircuitBreakerHelper.Reset">
+            <summary>Resets the circuit breaker to the Closed state.</summary>
+        </member>
+        <member name="T:Helpers.CircuitOpenException">
+            <summary>
+            Exception thrown when a call is attempted while the circuit is open.
+            </summary>
+        </member>
+        <member name="M:Helpers.CircuitOpenException.#ctor(System.String)">
+            <summary>
+            Exception thrown when a call is attempted while the circuit is open.
+            </summary>
+        </member>
+        <member name="T:Helpers.DateTimeHelper">
+            <summary>
+            DateTime handling tools
+            </summary>
+        </member>
+        <member name="P:Helpers.DateTimeHelper.DateTimeMin">
+            <summary>
+            Gets the minimum DateTime value.
+            </summary>
+        </member>
+        <member name="M:Helpers.DateTimeHelper.GetFormattedDateTime(System.String,System.String)">
+            <summary>
+            Returns a formatted DateTime (UTC) based on the provided format.
+            </summary>
+            <param name="dateTime">The dateTime string to be parsed.</param>
+            <param name="dateTimeFormat">The format of the dateTime string.</param>
+            <returns>A DateTimeOffset parsed from the string.</returns>
+        </member>
+        <member name="M:Helpers.DateTimeHelper.GetAgeInYear(System.DateTime)">
+            <summary>
+            Calculates the age in years from a given date.
+            </summary>
+            <param name="date">The date from which to calculate the age.</param>
+            <returns>The age in years.</returns>
+        </member>
+        <member name="M:Helpers.DateTimeHelper.GetWeekNumber(System.DateTime)">
+            <summary>
+            Gets the number of the week for the specified date, based on the current culture.
+            </summary>
+            <param name="date">The date to determine the week number.</param>
+            <returns>The week number of the year.</returns>
+        </member>
+        <member name="M:Helpers.DateTimeHelper.GetFirstDayOfWeek(System.DateTime)">
+            <summary>
+            Gets the first day of the week for the given date, based on the current culture.
+            </summary>
+            <param name="date">The date to find the first day of the week.</param>
+            <returns>The first day of the week for the specified date.</returns>
+        </member>
+        <member name="M:Helpers.DateTimeHelper.GetDatesInRange(System.DateTimeOffset,System.DateTimeOffset,System.TimeSpan)">
+            <summary>
+            Returns a collection of dates between the start and end date, with the specified interval.
+            </summary>
+            <param name="startDate">The start date.</param>
+            <param name="endDate">The end date.</param>
+            <param name="delta">The interval between dates.</param>
+            <returns>A collection of DateTimeOffset values between the start and end date.</returns>
+        </member>
+        <member name="M:Helpers.DateTimeHelper.ConvertForTimeZone(System.DateTimeOffset,System.TimeZoneInfo)">
+            <summary>
+            Converts the given date to the specified time zone.
+            </summary>
+            <param name="dateTime">The date to be converted.</param>
+            <param name="timeZone">The target time zone.</param>
+            <returns>A DateTimeOffset representing the date in the specified time zone.</returns>
+        </member>
+        <member name="M:Helpers.DateTimeHelper.GetQuarter(System.Int32)">
+            <summary>
+            Gets the quarter that corresponds to the specified month.
+            </summary>
+            <param name="month">The month to determine the quarter.</param>
+            <returns>The quarter number (1-4).</returns>
+        </member>
+        <member name="M:Helpers.DateTimeHelper.GetDatesInFrequency(System.Collections.Generic.IEnumerable{System.DateTimeOffset},System.TimeSpan)">
+            <summary>
+            Returns dates that match a given frequency within a collection.
+            </summary>
+            <param name="dates">The collection of dates.</param>
+            <param name="frequency">The frequency to match.</param>
+            <returns>A collection of dates matching the frequency.</returns>
+        </member>
+        <member name="M:Helpers.DateTimeHelper.GetFirstGoodDateInFrequency(System.Collections.Generic.IEnumerable{System.DateTimeOffset},System.TimeSpan)">
+            <summary>
+            Returns the first date that matches the frequency criteria from a given collection.
+            </summary>
+            <param name="dates">The collection of dates to search through.</param>
+            <param name="frequency">The frequency to match.</param>
+            <returns>The first date that matches the frequency, or null if none match.</returns>
+        </member>
+        <member name="M:Helpers.DateTimeHelper.GetDatesEachMonth(System.DateTime,System.DateTime)">
+            <summary>
+            Gets a list of dates separated by one month between the start and end date.
+            </summary>
+            <param name="startDate">The start date.</param>
+            <param name="endDate">The end date.</param>
+            <returns>A collection of DateTimeOffset values, one per month between the start and end date.</returns>
+        </member>
+        <member name="M:Helpers.EnumerableExtensions.HasData``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Checks if a collection is not null and is not empty.
+            </summary>
+            <typeparam name="T">The type of elements in the collection.</typeparam>
+            <param name="list">The collection to check.</param>
+            <returns>True if the collection is not null and not empty; otherwise, false.</returns>
+        </member>
+        <member name="M:Helpers.EnumerableExtensions.IndexOf``1(System.Collections.Generic.IList{``0},``0)">
+            <summary>
+            Finds the index of a value in a list using a default equality comparer.
+            </summary>
+            <typeparam name="T">The type of elements in the list.</typeparam>
+            <param name="obj">The list to search.</param>
+            <param name="value">The value to find.</param>
+            <returns>The index of the value if found; otherwise, -1.</returns>
+        </member>
+        <member name="M:Helpers.EnumerableExtensions.IndexOf``1(System.Collections.Generic.IEnumerable{``0},``0,System.Collections.Generic.IEqualityComparer{``0})">
+            <summary>
+            Finds the index of a value in an enumerable collection using a specified comparer.
+            </summary>
+            <typeparam name="T">The type of elements in the collection.</typeparam>
+            <param name="obj">The collection to search.</param>
+            <param name="value">The value to find.</param>
+            <param name="comparer">The comparer to use for comparing elements.</param>
+            <returns>The index of the value if found; otherwise, -1.</returns>
+        </member>
+        <member name="M:Helpers.EnumerableExtensions.FindItemWithNeighbors``1(System.Collections.Generic.IEnumerable{``0},System.Predicate{``0})">
+            <summary>
+            Finds the item in the collection that is sandwiched between two other items.
+            </summary>
+            <typeparam name="T">The type of elements in the collection.</typeparam>
+            <param name="items">The collection to search.</param>
+            <param name="matchFilling">The predicate to match the filling item.</param>
+            <returns>A tuple containing the previous, current, and next items if found; otherwise, three default values.</returns>
+        </member>
+        <member name="M:Helpers.EnumerableExtensions.IsEmpty``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Checks if the collection is empty.
+            </summary>
+            <typeparam name="T">The type of elements in the collection.</typeparam>
+            <param name="source">The collection to check.</param>
+            <returns>True if the collection is empty; otherwise, false.</returns>
+        </member>
+        <member name="M:Helpers.EnumerableExtensions.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0})">
+            <summary>
+            Performs the specified action on each element of the collection.
+            </summary>
+            <typeparam name="T">The type of elements in the collection.</typeparam>
+            <param name="source">The collection to iterate over.</param>
+            <param name="action">The action to perform on each element.</param>
+        </member>
+        <member name="M:Helpers.EnumerableExtensions.ToCommaSeparatedString``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Converts the collection to a comma-separated string.
+            </summary>
+            <typeparam name="T">The type of elements in the collection.</typeparam>
+            <param name="source">The collection to convert.</param>
+            <returns>A comma-separated string of the collection elements.</returns>
+        </member>
+        <member name="M:Helpers.EnumerableExtensions.ChunkBy``1(System.Collections.Generic.IEnumerable{``0},System.Int32)">
+            <summary>
+            Splits the collection into chunks of the specified size.
+            </summary>
+            <typeparam name="T">The type of elements in the collection.</typeparam>
+            <param name="source">The collection to split.</param>
+            <param name="size">The size of each chunk.</param>
+            <returns>An IEnumerable of chunks, each containing up to the specified number of elements.</returns>
+        </member>
+        <member name="M:Helpers.EnumerableExtensions.DistinctBy``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,``1})">
+            <summary>
+            Returns distinct elements from a sequence by using a specified selector.
+            </summary>
+            <typeparam name="TSource">The type of the elements of source.</typeparam>
+            <typeparam name="TKey">The type of the key returned by the key selector.</typeparam>
+            <param name="source">The sequence to remove duplicate elements from.</param>
+            <param name="keySelector">A function to extract the key for each element.</param>
+            <returns>An IEnumerable that contains distinct elements from the source sequence.</returns>
+        </member>
+        <member name="M:Helpers.EnumerableExtensions.Shuffle``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Shuffles the elements of the collection randomly.
+            </summary>
+            <typeparam name="T">The type of elements in the collection.</typeparam>
+            <param name="source">The collection to shuffle.</param>
+            <returns>A new collection with the elements shuffled randomly.</returns>
+        </member>
+        <member name="M:Helpers.EnumerableExtensions.Partition``1(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Boolean})">
+            <summary>
+            Partitions a collection into two collections based on a predicate.
+            </summary>
+            <typeparam name="T">The type of elements in the collection.</typeparam>
+            <param name="source">The collection to partition.</param>
+            <param name="predicate">The predicate to determine the partition.</param>
+            <returns>A tuple containing two collections: the first containing elements that match the predicate, and the second containing elements that do not match.</returns>
+        </member>
+        <member name="M:Helpers.EnumHelper.GetList``1">
+            <summary>
+            Gets a list of all values in the enum.
+            </summary>
+            <typeparam name="T">The type of the enum.</typeparam>
+            <returns>An IEnumerable of the enum values.</returns>
+        </member>
+        <member name="M:Helpers.EnumHelper.Parse``1(System.Int32)">
+            <summary>
+            Parses an integer value to the corresponding enum value.
+            </summary>
+            <typeparam name="T">The type of the enum.</typeparam>
+            <param name="value">The integer value to parse.</param>
+            <returns>The corresponding enum value, or the first value if parsing fails.</returns>
+        </member>
+        <member name="M:Helpers.EnumHelper.Parse``1(System.String)">
+            <summary>
+            Parses a string value to the corresponding enum value.
+            </summary>
+            <typeparam name="T">The type of the enum.</typeparam>
+            <param name="value">The string value to parse.</param>
+            <returns>The corresponding enum value, or the first value if parsing fails.</returns>
+        </member>
+        <member name="M:Helpers.EnumHelper.TryParse``1(System.Int32,``0@)">
+            <summary>
+            Attempts to parse an integer value to the corresponding enum value.
+            </summary>
+            <typeparam name="T">The type of the enum.</typeparam>
+            <param name="value">The integer value to parse.</param>
+            <param name="enumValue">The corresponding enum value if parsing is successful.</param>
+            <returns>True if the parsing is successful; otherwise, false.</returns>
+        </member>
+        <member name="M:Helpers.EnumHelper.TryParse``1(System.String,``0@)">
+            <summary>
+            Attempts to parse a string value to the corresponding enum value.
+            </summary>
+            <typeparam name="T">The type of the enum.</typeparam>
+            <param name="value">The string value to parse.</param>
+            <param name="enumValue">The corresponding enum value if parsing is successful.</param>
+            <returns>True if the parsing is successful; otherwise, false.</returns>
+        </member>
+        <member name="M:Helpers.EnumHelper.GetAttributeOfType``1(System.Enum)">
+            <summary>
+            Gets the attribute of a specified type associated with an enum value.
+            </summary>
+            <typeparam name="T">The type of the attribute.</typeparam>
+            <param name="enumVal">The enum value.</param>
+            <returns>The attribute of the specified type, or null if not found.</returns>
+        </member>
+        <member name="M:Helpers.EnumHelper.GetDescription(System.Enum)">
+            <summary>
+            Gets the description attribute of an enum value.
+            </summary>
+            <param name="enumVal">The enum value.</param>
+            <returns>The description attribute if present, otherwise the enum value as a string.</returns>
+        </member>
+        <member name="M:Helpers.EnumHelper.ToList``1">
+            <summary>
+            Converts the enum values to a list of their names and integer values.
+            </summary>
+            <typeparam name="T">The type of the enum.</typeparam>
+            <returns>A list of KeyValuePairs where the key is the name and the value is the integer value of the enum.</returns>
+        </member>
+        <member name="M:Helpers.EnumHelper.IsDefined``1(System.Int32)">
+            <summary>
+            Checks if an integer value is defined in the specified enum.
+            </summary>
+            <typeparam name="T">The type of the enum.</typeparam>
+            <param name="value">The integer value to check.</param>
+            <returns>True if the value is defined in the enum, otherwise false.</returns>
+        </member>
+        <member name="M:Helpers.EnumHelper.IsDefined``1(System.String)">
+            <summary>
+            Checks if a string value is defined in the specified enum.
+            </summary>
+            <typeparam name="T">The type of the enum.</typeparam>
+            <param name="value">The string value to check.</param>
+            <returns>True if the value is defined in the enum, otherwise false.</returns>
+        </member>
+        <member name="M:Helpers.EnumHelper.GetNames``1">
+            <summary>
+            Gets the names of the enum values as a list of strings.
+            </summary>
+            <typeparam name="T">The type of the enum.</typeparam>
+            <returns>A list of the names of the enum values.</returns>
+        </member>
+        <member name="M:Helpers.EnumHelper.GetValues``1">
+            <summary>
+            Gets the values of the enum as a list of integers.
+            </summary>
+            <typeparam name="T">The type of the enum.</typeparam>
+            <returns>A list of the values of the enum.</returns>
+        </member>
+        <member name="M:Helpers.EnumHelper.GetDefaultValue``1">
+            <summary>
+            Gets the default value of the specified enum type.
+            </summary>
+            <typeparam name="T">The type of the enum.</typeparam>
+            <returns>The default value of the enum type.</returns>
+        </member>
+        <member name="M:Helpers.EnumHelper.ConvertToDescriptionDictionary``1">
+            <summary>
+            Converts the enum values to a dictionary of their integer values and descriptions.
+            </summary>
+            <typeparam name="T">The type of the enum.</typeparam>
+            <returns>A dictionary where the key is the integer value and the value is the description of the enum.</returns>
+        </member>
+        <member name="T:Helpers.EventBusHelper">
+            <summary>
+            A lightweight in-process publish/subscribe event bus.
+            Handlers are identified by event type. Thread-safe.
+            </summary>
+        </member>
+        <member name="M:Helpers.EventBusHelper.Subscribe``1(System.Action{``0})">
+            <summary>
+            Subscribes a synchronous handler to events of type <typeparamref name="TEvent"/>.
+            </summary>
+            <typeparam name="TEvent">The event type to subscribe to.</typeparam>
+            <param name="handler">The handler to invoke when the event is published.</param>
+        </member>
+        <member name="M:Helpers.EventBusHelper.Subscribe``1(System.Func{``0,System.Threading.Tasks.Task})">
+            <summary>
+            Subscribes an asynchronous handler to events of type <typeparamref name="TEvent"/>.
+            </summary>
+            <typeparam name="TEvent">The event type to subscribe to.</typeparam>
+            <param name="handler">The async handler to invoke when the event is published.</param>
+        </member>
+        <member name="M:Helpers.EventBusHelper.Unsubscribe``1">
+            <summary>
+            Removes all handlers for events of type <typeparamref name="TEvent"/>.
+            </summary>
+        </member>
+        <member name="M:Helpers.EventBusHelper.Publish``1(``0)">
+            <summary>
+            Publishes an event synchronously to all registered sync handlers.
+            Async handlers are not invoked by this method.
+            </summary>
+            <typeparam name="TEvent">The event type.</typeparam>
+            <param name="event">The event instance to publish.</param>
+        </member>
+        <member name="M:Helpers.EventBusHelper.PublishAsync``1(``0)">
+            <summary>
+            Publishes an event asynchronously, invoking both sync and async handlers in order.
+            </summary>
+            <typeparam name="TEvent">The event type.</typeparam>
+            <param name="event">The event instance to publish.</param>
+        </member>
+        <member name="M:Helpers.EventBusHelper.HandlerCount``1">
+            <summary>
+            Returns the number of registered handlers for a given event type.
+            </summary>
+        </member>
+        <member name="M:Helpers.EventBusHelper.Clear">
+            <summary>
+            Removes all subscriptions from the event bus.
+            </summary>
+        </member>
+        <member name="M:Helpers.Extensions.CurrencyExtensions.ToCurrency(System.Decimal,System.String)">
+            <summary>
+            Formata um valor decimal como moeda com base em uma cultura específica.
+            </summary>
+            <param name="valor">Valor decimal a ser formatado</param>
+            <param name="cultura">Cultura no formato "pt-BR", "en-US", etc.</param>
+            <returns>Valor formatado como moeda</returns>
+        </member>
+        <member name="T:Helpers.Extensions.NullSafeExtensions">
+            <summary>
+            Métodos de extensão para facilitar o tratamento de referências nulas,
+            melhorando a legibilidade e segurança de código com suporte a expressões elegantes.
+            </summary>
+        </member>
+        <member name="M:Helpers.Extensions.NullSafeExtensions.ThrowIfNull``1(``0,System.String)">
+            <summary>
+            Lança uma exceção se o objeto for <c>null</c>. Caso contrário, retorna o próprio objeto com tipo não anulável.
+            Útil para encadear chamadas sem precisar de verificações explícitas.
+            </summary>
+            <typeparam name="T">Tipo da referência a ser validada (restrito a tipos de referência).</typeparam>
+            <param name="obj">Objeto a ser validado.</param>
+            <param name="message">Mensagem da exceção a ser lançada, caso <paramref name="obj"/> seja <c>null</c>.</param>
+            <returns>O próprio objeto com tipo não anulável.</returns>
+            <exception cref="T:System.InvalidOperationException">Lançada quando <paramref name="obj"/> é <c>null</c>.</exception>
+        </member>
+        <member name="M:Helpers.Extensions.NullSafeExtensions.NullIf``1(``0,System.Func{``0,System.Boolean})">
+            <summary>
+            Retorna <c>null</c> se o predicado especificado retornar <c>true</c> para o objeto.
+            Caso contrário, retorna o próprio objeto.
+            </summary>
+            <typeparam name="T">Tipo da referência analisada.</typeparam>
+            <param name="obj">Objeto a ser testado.</param>
+            <param name="predicate">Função booleana que define quando o objeto deve ser considerado nulo.</param>
+            <returns><c>null</c> se o predicado retornar <c>true</c>; caso contrário, o próprio objeto.</returns>
+        </member>
+        <member name="M:Helpers.Extensions.NullSafeExtensions.ThrowIfEmpty``1(System.Collections.Generic.IEnumerable{``0},System.String)">
+            <summary>
+            Lança uma exceção se a coleção for <c>null</c>, vazia ou composta apenas por espaços (no caso de <see cref="T:System.String"/>).
+            Utiliza materialização com <c>ToList()</c> apenas quando necessário para evitar múltiplas enumerações.
+            </summary>
+            <typeparam name="T">Tipo dos elementos da coleção.</typeparam>
+            <param name="source">Coleção a ser validada.</param>
+            <param name="message">Mensagem da exceção a ser lançada se a coleção for inválida.</param>
+            <returns>A própria coleção, caso contenha elementos válidos.</returns>
+            <exception cref="T:System.InvalidOperationException">Lançada quando a coleção for nula, vazia ou inválida.</exception>
+        </member>
+        <member name="M:Helpers.Extensions.NullSafeExtensions.IsIn``1(``0,``0[])">
+            <summary>
+            Verifica se um valor está presente em uma lista de valores fornecida.
+            </summary>
+        </member>
+        <member name="M:Helpers.Extensions.NullSafeExtensions.SafeFirstOrDefault``1(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Boolean},``0)">
+            <summary>
+            Retorna o primeiro elemento que satisfaça o predicado ou um valor alternativo fornecido.
+            </summary>
+        </member>
+        <member name="M:Helpers.Extensions.NullSafeExtensions.IfNotNull``1(``0,System.Action{``0})">
+            <summary>
+            Executa uma ação se o objeto não for <c>null</c>.
+            </summary>
+        </member>
+        <member name="M:Helpers.Extensions.NullSafeExtensions.With``2(``0,System.Func{``0,``1})">
+            <summary>
+            Executa uma transformação no objeto, se não for <c>null</c>, retornando o resultado. Caso contrário, retorna <c>null</c>.
+            </summary>
+        </member>
+        <member name="T:Helpers.FileHelper">
+            <summary>
+            Helper class for performing common file operations.
+            </summary>
+        </member>
+        <member name="M:Helpers.FileHelper.RemoveIllegalFileNameChars(System.String,System.String)">
+            <summary>
+            Removes illegal characters from a file name or path.
+            </summary>
+            <param name="input">The input string containing the file name or path.</param>
+            <param name="replacement">The string to replace illegal characters with.</param>
+            <returns>A sanitized file name or path.</returns>
+        </member>
+        <member name="M:Helpers.FileHelper.ReadAllLines(System.String)">
+            <summary>
+            Reads all lines from a text file.
+            </summary>
+            <param name="filePath">The path to the file.</param>
+            <returns>An array of lines from the file.</returns>
+        </member>
+        <member name="M:Helpers.FileHelper.WriteAllLines(System.String,System.String[])">
+            <summary>
+            Writes all lines to a text file.
+            </summary>
+            <param name="filePath">The path to the file.</param>
+            <param name="lines">The lines to write to the file.</param>
+        </member>
+        <member name="M:Helpers.FileHelper.ReadAllText(System.String)">
+            <summary>
+            Reads all text from a file.
+            </summary>
+            <param name="filePath">The path to the file.</param>
+            <returns>The text from the file.</returns>
+        </member>
+        <member name="M:Helpers.FileHelper.WriteAllText(System.String,System.String)">
+            <summary>
+            Writes text to a file.
+            </summary>
+            <param name="filePath">The path to the file.</param>
+            <param name="text">The text to write to the file.</param>
+        </member>
+        <member name="M:Helpers.FileHelper.AppendAllText(System.String,System.String)">
+            <summary>
+            Appends text to a file, creating the file if it does not exist.
+            </summary>
+            <param name="filePath">The path to the file.</param>
+            <param name="text">The text to append to the file.</param>
+        </member>
+        <member name="M:Helpers.FileHelper.FileExists(System.String)">
+            <summary>
+            Checks if a file exists.
+            </summary>
+            <param name="filePath">The path to the file.</param>
+            <returns>True if the file exists; otherwise, false.</returns>
+        </member>
+        <member name="M:Helpers.FileHelper.DeleteFile(System.String)">
+            <summary>
+            Deletes a file.
+            </summary>
+            <param name="filePath">The path to the file.</param>
+        </member>
+        <member name="M:Helpers.FileHelper.CopyFile(System.String,System.String,System.Boolean)">
+            <summary>
+            Copies a file to a new location.
+            </summary>
+            <param name="sourceFilePath">The source file path.</param>
+            <param name="destFilePath">The destination file path.</param>
+            <param name="overwrite">True to overwrite the destination file if it exists; otherwise, false.</param>
+        </member>
+        <member name="M:Helpers.FileHelper.MoveFile(System.String,System.String)">
+            <summary>
+            Moves a file to a new location.
+            </summary>
+            <param name="sourceFilePath">The source file path.</param>
+            <param name="destFilePath">The destination file path.</param>
+        </member>
+        <member name="M:Helpers.FileHelper.ValidateFilePath(System.String)">
+            <summary>
+            Validates if the file path is not null or empty.
+            </summary>
+            <param name="filePath">The file path to validate.</param>
+        </member>
+        <member name="T:Helpers.FileExtensionMethods">
+            <summary>
+            Extension methods for working with file sizes.
+            </summary>
+        </member>
+        <member name="M:Helpers.FileExtensionMethods.ToFileSize(System.Int64)">
+            <summary>
+            Converts a long value representing bytes into a formatted file size string.
+            </summary>
+            <param name="l">The size in bytes.</param>
+            <returns>A formatted file size string (e.g., "1.23 MB").</returns>
+        </member>
+        <member name="T:Helpers.FileSizeFormatProvider">
+            <summary>
+            Custom format provider for formatting file sizes.
+            </summary>
+        </member>
+        <member name="T:Helpers.FloatingNumberHelper">
+            <summary>
+            Helper class for checking floating point equality and managing imprecision of floating-point types.
+            </summary>
+        </member>
+        <member name="M:Helpers.FloatingNumberHelper.NearlyEqual(System.Double,System.Double,System.Double)">
+            <summary>
+            Checks if two double values are nearly equal, allowing for a specified tolerance.
+            </summary>
+            <param name="value">The first value to compare.</param>
+            <param name="compareTo">The value to compare against.</param>
+            <param name="epsilon">The acceptable difference between the two values.</param>
+            <returns>Returns true if the two values are nearly equal within the specified tolerance.</returns>
+        </member>
+        <member name="M:Helpers.FloatingNumberHelper.NearlyEqual(System.Double,System.Double)">
+            <summary>
+            Checks if two double values are nearly equal, using the default tolerance.
+            </summary>
+            <param name="value">The first value to compare.</param>
+            <param name="compareTo">The value to compare against.</param>
+            <returns>Returns true if the two values are nearly equal within the default tolerance.</returns>
+        </member>
+        <member name="M:Helpers.FloatingNumberHelper.NearlyEqual(System.Nullable{System.Double},System.Nullable{System.Double})">
+            <summary>
+            Checks if two nullable double values are nearly equal, allowing for default tolerance.
+            </summary>
+            <param name="value">The first nullable value to compare.</param>
+            <param name="compareTo">The nullable value to compare against.</param>
+            <returns>Returns true if both values are null or are nearly equal within the default tolerance.</returns>
+        </member>
+        <member name="M:Helpers.FloatingNumberHelper.NearlyEqual(System.Double,System.Nullable{System.Double})">
+            <summary>
+            Checks if a double value is nearly equal to a nullable double value, using the default tolerance.
+            </summary>
+            <param name="value">The first value to compare.</param>
+            <param name="compareTo">The nullable value to compare against.</param>
+            <returns>Returns true if the nullable value has a value and both are nearly equal within the default tolerance.</returns>
+        </member>
+        <member name="M:Helpers.FloatingNumberHelper.NearlyZero(System.Double,System.Double)">
+            <summary>
+            Checks if a double value is nearly zero, allowing for a specified tolerance.
+            </summary>
+            <param name="value">The value to check.</param>
+            <param name="epsilon">The acceptable difference from zero.</param>
+            <returns>Returns true if the value is nearly zero within the specified tolerance.</returns>
+        </member>
+        <member name="M:Helpers.FloatingNumberHelper.NearlyZero(System.Double)">
+            <summary>
+            Checks if a double value is nearly zero, using the default tolerance.
+            </summary>
+            <param name="value">The value to check.</param>
+            <returns>Returns true if the value is nearly zero within the default tolerance.</returns>
+        </member>
+        <member name="M:Helpers.FloatingNumberHelper.NearlyZero(System.Nullable{System.Double})">
+            <summary>
+            Checks if a nullable double value is nearly zero, using the default tolerance.
+            </summary>
+            <param name="value">The nullable value to check.</param>
+            <returns>Returns true if the value has a value and is nearly zero within the default tolerance.</returns>
+        </member>
+        <member name="M:Helpers.FloatingNumberHelper.NearlyZeroOrNull(System.Nullable{System.Double})">
+            <summary>
+            Checks if a nullable double value is nearly zero or null, using the default tolerance.
+            </summary>
+            <param name="value">The nullable value to check.</param>
+            <returns>Returns true if the value is null or is nearly zero within the default tolerance.</returns>
+        </member>
+        <member name="M:Helpers.FloatingNumberHelper.NearlyZero(System.Single,System.Single)">
+            <summary>
+            Checks if a float value is nearly zero, allowing for a specified tolerance.
+            </summary>
+            <param name="value">The value to check.</param>
+            <param name="epsilon">The acceptable difference from zero.</param>
+            <returns>Returns true if the value is nearly zero within the specified tolerance.</returns>
+        </member>
+        <member name="M:Helpers.FloatingNumberHelper.NearlyZero(System.Single)">
+            <summary>
+            Checks if a float value is nearly zero, using the default tolerance.
+            </summary>
+            <param name="value">The value to check.</param>
+            <returns>Returns true if the value is nearly zero within the default tolerance.</returns>
+        </member>
+        <member name="M:Helpers.FloatingNumberHelper.NearlyEqual(System.Single,System.Single)">
+            <summary>
+            Checks if two float values are nearly equal, using the default tolerance.
+            </summary>
+            <param name="value">The first value to compare.</param>
+            <param name="compareTo">The value to compare against.</param>
+            <returns>Returns true if the two values are nearly equal within the default tolerance.</returns>
+        </member>
+        <member name="M:Helpers.FloatingNumberHelper.GreaterThanOrNearlyEqual(System.Double,System.Double)">
+            <summary>
+            Checks if a double value is greater than or nearly equal to another value, allowing for the default tolerance.
+            </summary>
+            <param name="value">The first value to compare.</param>
+            <param name="compareTo">The value to compare against.</param>
+            <returns>Returns true if the first value is greater than or nearly equal to the second value.</returns>
+        </member>
+        <member name="M:Helpers.FloatingNumberHelper.LessThanOrNearlyEqual(System.Double,System.Double)">
+            <summary>
+            Checks if a double value is less than or nearly equal to another value, allowing for the default tolerance.
+            </summary>
+            <param name="value">The first value to compare.</param>
+            <param name="compareTo">The value to compare against.</param>
+            <returns>Returns true if the first value is less than or nearly equal to the second value.</returns>
+        </member>
+        <member name="T:Helpers.GuidHelper">
+            <summary>
+            Provides utility methods for working with GUIDs.
+            </summary>
+        </member>
+        <member name="M:Helpers.GuidHelper.IsValid(System.String)">
+            <summary>
+            Checks whether the given string is a valid GUID.
+            </summary>
+            <param name="value">The string to validate.</param>
+            <returns>True if the string is a valid GUID; otherwise, false.</returns>
+        </member>
+        <member name="M:Helpers.GuidHelper.ToShortGuid(System.Guid)">
+            <summary>
+            Converts a GUID to a URL-safe Base64 short representation (22 characters).
+            </summary>
+            <param name="guid">The GUID to convert.</param>
+            <returns>A 22-character URL-safe Base64 string.</returns>
+        </member>
+        <member name="M:Helpers.GuidHelper.FromShortGuid(System.String)">
+            <summary>
+            Converts a short GUID string back to a <see cref="T:System.Guid"/>.
+            </summary>
+            <param name="shortGuid">The 22-character short GUID string.</param>
+            <returns>The original <see cref="T:System.Guid"/>.</returns>
+            <exception cref="T:System.FormatException">Thrown when the input is not a valid short GUID.</exception>
+        </member>
+        <member name="M:Helpers.GuidHelper.ParseOrEmpty(System.String)">
+            <summary>
+            Returns <see cref="F:System.Guid.Empty"/> if the input is null or whitespace; otherwise parses the GUID.
+            </summary>
+            <param name="value">The GUID string.</param>
+            <returns>The parsed GUID or <see cref="F:System.Guid.Empty"/>.</returns>
+        </member>
+        <member name="M:Helpers.GuidHelper.TryParse(System.String)">
+            <summary>
+            Tries to parse the string to a GUID. Returns null if invalid.
+            </summary>
+            <param name="value">The GUID string.</param>
+            <returns>The parsed <see cref="T:System.Guid"/>, or null if invalid.</returns>
+        </member>
+        <member name="M:Helpers.GuidHelper.GenerateSequential">
+            <summary>
+            Generates a sequential GUID using the current UTC timestamp combined with
+            random bytes, producing values that sort well in databases (e.g. SQL Server).
+            </summary>
+            <returns>A new sequential <see cref="T:System.Guid"/>.</returns>
+        </member>
+        <member name="T:Helpers.InMemoryCacheHelper">
+            <summary>
+            A lightweight in-memory cache with per-entry TTL and thread-safety.
+            Does not depend on IMemoryCache — works without DI container.
+            </summary>
+        </member>
+        <member name="M:Helpers.InMemoryCacheHelper.#ctor(System.Int32)">
+            <param name="evictionIntervalSeconds">How often expired entries are purged (default: 60s).</param>
+        </member>
+        <member name="M:Helpers.InMemoryCacheHelper.GetOrSet``1(System.String,System.Func{``0},System.Nullable{System.TimeSpan})">
+            <summary>
+            Returns the cached value if present and not expired; otherwise invokes the factory,
+            stores the result, and returns it.
+            </summary>
+            <typeparam name="T">The value type.</typeparam>
+            <param name="key">The cache key.</param>
+            <param name="factory">Function to produce the value on a cache miss.</param>
+            <param name="ttl">Time-to-live for the entry. Defaults to 5 minutes.</param>
+        </member>
+        <member name="M:Helpers.InMemoryCacheHelper.GetOrSetAsync``1(System.String,System.Func{System.Threading.Tasks.Task{``0}},System.Nullable{System.TimeSpan})">
+            <summary>
+            Async version of <see cref="M:Helpers.InMemoryCacheHelper.GetOrSet``1(System.String,System.Func{``0},System.Nullable{System.TimeSpan})"/>.
+            </summary>
+        </member>
+        <member name="M:Helpers.InMemoryCacheHelper.Set``1(System.String,``0,System.Nullable{System.TimeSpan})">
+            <summary>
+            Stores a value in the cache with the given TTL.
+            </summary>
+        </member>
+        <member name="M:Helpers.InMemoryCacheHelper.TryGet``1(System.String,``0@)">
+            <summary>
+            Tries to get a cached value. Returns false if the key is missing or expired.
+            </summary>
+        </member>
+        <member name="M:Helpers.InMemoryCacheHelper.Invalidate(System.String)">
+            <summary>
+            Removes a specific entry from the cache.
+            </summary>
+        </member>
+        <member name="M:Helpers.InMemoryCacheHelper.InvalidateByPrefix(System.String)">
+            <summary>
+            Removes all entries whose keys start with the given prefix.
+            </summary>
+        </member>
+        <member name="M:Helpers.InMemoryCacheHelper.Clear">
+            <summary>Clears all entries from the cache.</summary>
+        </member>
+        <member name="P:Helpers.InMemoryCacheHelper.Count">
+            <summary>Gets the number of non-expired entries currently in the cache.</summary>
+        </member>
+        <member name="T:Helpers.JsonHelper">
+            <summary>
+            Provides utility methods for JSON manipulation that complement <see cref="T:Helpers.SerializationHelper"/>.
+            </summary>
+        </member>
+        <member name="M:Helpers.JsonHelper.TryDeserialize``1(System.String,``0@)">
+            <summary>
+            Attempts to deserialize a JSON string to the specified type.
+            Returns the default value if deserialization fails.
+            </summary>
+            <typeparam name="T">The target type.</typeparam>
+            <param name="json">The JSON string.</param>
+            <param name="result">The deserialized object, or default on failure.</param>
+            <returns>True if deserialization succeeded; otherwise, false.</returns>
+        </member>
+        <member name="M:Helpers.JsonHelper.Prettify(System.String)">
+            <summary>
+            Formats a JSON string with indentation (pretty-print).
+            </summary>
+            <param name="json">The compact JSON string.</param>
+            <returns>A pretty-printed JSON string.</returns>
+        </member>
+        <member name="M:Helpers.JsonHelper.Minify(System.String)">
+            <summary>
+            Minifies a JSON string by removing unnecessary whitespace.
+            </summary>
+            <param name="json">The JSON string to minify.</param>
+            <returns>A compact JSON string.</returns>
+        </member>
+        <member name="M:Helpers.JsonHelper.Merge(System.String,System.String)">
+            <summary>
+            Merges two JSON objects. Properties from <paramref name="patch"/> override those in <paramref name="source"/>.
+            </summary>
+            <param name="source">The base JSON object string.</param>
+            <param name="patch">The JSON object string whose properties take precedence.</param>
+            <returns>A merged JSON string.</returns>
+        </member>
+        <member name="M:Helpers.JsonHelper.SerializeCamelCase``1(``0)">
+            <summary>
+            Serializes an object to a camelCase JSON string.
+            </summary>
+            <typeparam name="T">The type of the object.</typeparam>
+            <param name="obj">The object to serialize.</param>
+            <returns>A camelCase JSON string.</returns>
+        </member>
+        <member name="M:Helpers.JsonHelper.TryGetProperty(System.String,System.String,System.String@)">
+            <summary>
+            Tries to read a top-level property value from a JSON string by key.
+            </summary>
+            <param name="json">The JSON object string.</param>
+            <param name="key">The property key.</param>
+            <param name="value">The raw JSON value string if found.</param>
+            <returns>True if the key was found; otherwise, false.</returns>
+        </member>
+        <member name="M:Helpers.JsonHelper.Flatten(System.String)">
+            <summary>
+            Flattens a nested JSON object into a dictionary with dot-separated keys.
+            Arrays are not flattened.
+            </summary>
+            <param name="json">The JSON object string to flatten.</param>
+            <returns>A dictionary of dot-separated keys and their string values.</returns>
+        </member>
+        <member name="T:Helpers.MathHelper">
+            <summary>
+            Provides mathematical helper methods for trend analysis, statistics calculations, and other operations on data series.
+            </summary>
+        </member>
+        <member name="M:Helpers.MathHelper.GetLeastSquaresTrend(System.Collections.Generic.IList{System.Tuple{System.Single,System.Single}})">
+            <summary>
+            Computes the trend of a series using the Least Squares method.
+            </summary>
+            <param name="serie">List of data points with X and Y coordinates.</param>
+            <returns>The calculated trend value.</returns>
+        </member>
+        <member name="M:Helpers.MathHelper.GetMinMaxAvg(System.Collections.Generic.IList{System.Double},System.Double@,System.Double@,System.Double@)">
+            <summary>
+            Computes the minimum, maximum, and average of a series of values.
+            </summary>
+            <param name="serie">List of values.</param>
+            <param name="min">The minimum value.</param>
+            <param name="max">The maximum value.</param>
+            <param name="avg">The average value.</param>
+        </member>
+        <member name="M:Helpers.MathHelper.GetDiscrepancy(System.Collections.Generic.IEnumerable{System.Double})">
+            <summary>
+            Returns the discrepancy between the maximum and minimum values in the series.
+            </summary>
+            <param name="values">Series of values.</param>
+            <returns>The discrepancy value.</returns>
+        </member>
+        <member name="M:Helpers.MathHelper.CalculateStandardDeviation(System.Collections.Generic.IEnumerable{System.Double},System.Nullable{System.Double}@,System.Nullable{System.Double}@)">
+            <summary>
+            Computes the standard deviation of a series.
+            </summary>
+            <param name="values">Series of values.</param>
+            <param name="average">The average of the series.</param>
+            <param name="stdDeviation">The standard deviation of the series.</param>
+        </member>
+        <member name="M:Helpers.MathHelper.GetAverage(System.Collections.Generic.IList{System.Collections.Generic.KeyValuePair{System.DateTimeOffset,System.Double}})">
+            <summary>
+            Computes the weighted average of a series of values with associated timestamps.
+            </summary>
+            <param name="values">Series of date-value pairs.</param>
+            <returns>The weighted average value.</returns>
+        </member>
+        <member name="M:Helpers.MathHelper.GetAverageSquare(System.Collections.Generic.IList{System.Collections.Generic.KeyValuePair{System.DateTimeOffset,System.Double}})">
+            <summary>
+            Computes the average squared value of a series of values with associated timestamps.
+            </summary>
+            <param name="values">Series of date-value pairs.</param>
+            <returns>The average squared value.</returns>
+        </member>
+        <member name="M:Helpers.MathHelper.GetStandardDeviation(System.Collections.Generic.IList{System.Collections.Generic.KeyValuePair{System.DateTimeOffset,System.Double}},System.Double)">
+            <summary>
+            Computes the standard deviation of a series using its average and squared average.
+            </summary>
+            <param name="values">Series of date-value pairs.</param>
+            <param name="average">The average value.</param>
+            <returns>The standard deviation.</returns>
+        </member>
+        <member name="M:Helpers.MathHelper.ComputeAvgValue(System.Double,System.DateTimeOffset,System.Double,System.DateTimeOffset)">
+            <summary>
+            Computes the weighted average value based on two data points and their timestamps.
+            </summary>
+            <param name="previousValue">The previous value in the series.</param>
+            <param name="previousDate">The timestamp of the previous value.</param>
+            <param name="value">The current value in the series.</param>
+            <param name="currentDate">The timestamp of the current value.</param>
+            <returns>The computed weighted average value.</returns>
+        </member>
+        <member name="M:Helpers.MathHelper.ComputeAvgSquareValue(System.Double,System.DateTimeOffset,System.Double,System.DateTimeOffset)">
+            <summary>
+            Computes the weighted average of the squared values based on two data points and their timestamps.
+            </summary>
+            <param name="previousValue">The previous value in the series.</param>
+            <param name="previousDate">The timestamp of the previous value.</param>
+            <param name="value">The current value in the series.</param>
+            <param name="currentDate">The timestamp of the current value.</param>
+            <returns>The computed weighted average squared value.</returns>
+        </member>
+        <member name="T:Helpers.NameOfHelper">
+            <summary>
+            Helper class for retrieving property names using expressions.
+            </summary>
+        </member>
+        <member name="M:Helpers.NameOfHelper.GetPropertyName``2(``0,System.Linq.Expressions.Expression{System.Func{``0,``1}})">
+            <summary>
+            Gets the name of a property from a given lambda expression.
+            </summary>
+            <typeparam name="T">The type of the object.</typeparam>
+            <typeparam name="TProp">The type of the property.</typeparam>
+            <param name="obj">The object instance (can be null for static access).</param>
+            <param name="propertyAccessor">An expression representing the property.</param>
+            <returns>The name of the property as a string.</returns>
+            <exception cref="T:System.ArgumentException">Thrown when the provided expression is not a valid member expression.</exception>
+            <exception cref="T:System.ArgumentNullException">Thrown when the property accessor is null.</exception>
+        </member>
+        <member name="M:Helpers.NetworkHelper.GetLocalIpAddress">
+            <summary>
+            Gets the primary local IPv4 address.
+            </summary>
+            <returns>The primary local IPv4 address as a string.</returns>
+            <exception cref="T:System.InvalidOperationException">Thrown if no network adapters with an IPv4 address are found.</exception>
+        </member>
+        <member name="M:Helpers.NetworkHelper.GetAllLocalIpAddresses">
+            <summary>
+            Gets all local IPv4 addresses.
+            </summary>
+            <returns>A list of all local IPv4 addresses.</returns>
+        </member>
+        <member name="M:Helpers.NetworkHelper.IsPortOpen(System.String,System.Int32,System.TimeSpan)">
+            <summary>
+            Checks if the specified port is open on the given host.
+            </summary>
+            <param name="host">The host name or IP address.</param>
+            <param name="port">The port number.</param>
+            <param name="timeout">The timeout in milliseconds for the port check (default is 1000ms).</param>
+            <returns>True if the port is open; otherwise, false.</returns>
+        </member>
+        <member name="M:Helpers.NetworkHelper.PingHost(System.String)">
+            <summary>
+            Pings the specified host synchronously.
+            </summary>
+            <param name="host">The host name or IP address.</param>
+            <returns>True if the ping is successful; otherwise, false.</returns>
+        </member>
+        <member name="M:Helpers.NetworkHelper.PingHostAsync(System.String)">
+            <summary>
+            Pings the specified host asynchronously.
+            </summary>
+            <param name="host">The host name or IP address.</param>
+            <returns>A task that returns true if the ping is successful; otherwise, false.</returns>
+        </member>
+        <member name="M:Helpers.NetworkHelper.GetMacAddress">
+            <summary>
+            Gets the MAC address of the first network adapter.
+            </summary>
+            <returns>The MAC address as a string.</returns>
+            <exception cref="T:System.InvalidOperationException">Thrown if no network adapters are found.</exception>
+        </member>
+        <member name="M:Helpers.NetworkHelper.GetNetworkInterfaces">
+            <summary>
+            Gets all network interfaces on the local machine.
+            </summary>
+            <returns>A list of all network interfaces.</returns>
+        </member>
+        <member name="M:Helpers.NetworkHelper.IsValidIpAddress(System.String)">
+            <summary>
+            Checks if the provided string is a valid IPv4 or IPv6 address.
+            </summary>
+            <param name="ipAddress">The IP address string to validate.</param>
+            <returns>True if the IP address is valid; otherwise, false.</returns>
+        </member>
+        <member name="M:Helpers.NetworkHelper.IsUrlReachableAsync(System.String)">
+            <summary>
+            Checks if the specified URL is reachable.
+            </summary>
+            <param name="url">The URL to check.</param>
+            <returns>True if the URL is reachable; otherwise, false.</returns>
+        </member>
+        <member name="M:Helpers.NetworkHelper.IsInternetAvailable">
+            <summary>
+            Checks if the internet is available by pinging an external IP (e.g., Google's public DNS).
+            </summary>
+            <returns>True if the internet is available; otherwise, false.</returns>
+        </member>
+        <member name="M:Helpers.NetworkHelper.GetAvailablePort">
+            <summary>
+            Gets an available port on the local machine.
+            </summary>
+            <returns>An available port number.</returns>
+        </member>
+        <member name="T:Helpers.NumericHelper">
+            <summary>
+            Provides various numeric helper methods for parsing, validation, and formatting.
+            </summary>
+        </member>
+        <member name="M:Helpers.NumericHelper.GetDoubleFromString(System.String)">
+            <summary>
+            Converts a string to a double value.
+            </summary>
+            <param name="value">The string to be converted.</param>
+            <returns>The corresponding double value.</returns>
+            <exception cref="T:System.ArgumentException">If the string is not a valid double value.</exception>
+        </member>
+        <member name="M:Helpers.NumericHelper.TryGetDoubleFromString(System.String,System.Double@)">
+            <summary>
+            Attempts to convert a string to a double value.
+            </summary>
+            <param name="value">The string to be converted.</param>
+            <param name="doubleValue">The converted double value, if successful.</param>
+            <returns>True if the conversion is successful, otherwise false.</returns>
+        </member>
+        <member name="M:Helpers.NumericHelper.GetFloatFromString(System.String)">
+            <summary>
+            Converts a string to a float value.
+            </summary>
+            <param name="value">The string to be converted.</param>
+            <returns>The corresponding float value.</returns>
+            <exception cref="T:System.ArgumentException">If the string is not a valid float value.</exception>
+        </member>
+        <member name="M:Helpers.NumericHelper.GetIntFromString(System.String)">
+            <summary>
+            Converts a string to an integer value.
+            </summary>
+            <param name="value">The string to be converted.</param>
+            <returns>The corresponding integer value.</returns>
+            <exception cref="T:System.ArgumentException">If the string is not a valid integer value.</exception>
+        </member>
+        <member name="M:Helpers.NumericHelper.TryGetIntFromString(System.String,System.Int32@)">
+            <summary>
+            Attempts to convert a string to an integer value.
+            </summary>
+            <param name="value">The string to be converted.</param>
+            <param name="intValue">The converted integer value, if successful.</param>
+            <returns>True if the conversion is successful, otherwise false.</returns>
+        </member>
+        <member name="M:Helpers.NumericHelper.GetDecimalFromString(System.String)">
+            <summary>
+            Converts a string to a decimal value.
+            </summary>
+            <param name="value">The string to be converted.</param>
+            <returns>The corresponding decimal value.</returns>
+            <exception cref="T:System.ArgumentException">If the string is not a valid decimal value.</exception>
+        </member>
+        <member name="M:Helpers.NumericHelper.Truncate(System.Double,System.Int32)">
+            <summary>
+            Truncates a double value to a specified number of decimal places.
+            </summary>
+            <param name="value">The value to be truncated.</param>
+            <param name="precision">The number of decimal places.</param>
+            <returns>The truncated value.</returns>
+        </member>
+        <member name="M:Helpers.NumericHelper.IsValidNumericValue(System.Double)">
+            <summary>
+            Checks if the numeric value is valid (not NaN or infinity).
+            </summary>
+            <param name="value">The value to be checked.</param>
+            <returns>True if the value is valid, otherwise false.</returns>
+        </member>
+        <member name="M:Helpers.NumericHelper.IsNaturalNumber(System.String)">
+            <summary>
+            Checks if the string represents a natural number (positive and without fractions).
+            </summary>
+            <param name="strNumber">The string to be checked.</param>
+            <returns>True if it is a natural number, otherwise false.</returns>
+        </member>
+        <member name="M:Helpers.NumericHelper.IsWholeNumber(System.String)">
+            <summary>
+            Checks if the string represents a non-negative integer.
+            </summary>
+            <param name="strNumber">The string to be checked.</param>
+            <returns>True if it is a non-negative integer, otherwise false.</returns>
+        </member>
+        <member name="M:Helpers.NumericHelper.IsInteger(System.String)">
+            <summary>
+            Checks if the string represents an integer (positive or negative).
+            </summary>
+            <param name="strNumber">The string to be checked.</param>
+            <returns>True if it is an integer, otherwise false.</returns>
+        </member>
+        <member name="M:Helpers.NumericHelper.IsPositiveNumber(System.String)">
+            <summary>
+            Checks if the string represents a positive number (integer or real).
+            </summary>
+            <param name="strNumber">The string to be checked.</param>
+            <returns>True if it is a positive number, otherwise false.</returns>
+        </member>
+        <member name="M:Helpers.NumericHelper.IsNumber(System.String)">
+            <summary>
+            Checks if the string represents a valid number.
+            </summary>
+            <param name="strNumber">The string to be checked.</param>
+            <returns>True if it is a valid number, otherwise false.</returns>
+        </member>
+        <member name="M:Helpers.NumericHelper.IsInRange(System.Double,System.Double,System.Double)">
+            <summary>
+            Checks if a value is within a specific range.
+            </summary>
+            <param name="value">The value to be checked.</param>
+            <param name="min">The minimum value of the range.</param>
+            <param name="max">The maximum value of the range.</param>
+            <returns>True if the value is within the range, otherwise false.</returns>
+        </member>
+        <member name="M:Helpers.NumericHelper.GetDoubleOrDefault(System.String,System.Double)">
+            <summary>
+            Attempts to get a double value from a string, returning a default value if it fails.
+            </summary>
+            <param name="value">The string to be converted.</param>
+            <param name="defaultValue">The default value to return in case of failure.</param>
+            <returns>The converted double value or the default value.</returns>
+        </member>
+        <member name="M:Helpers.NumericHelper.ToCurrency(System.Double,System.String)">
+            <summary>
+            Converts a double value to a currency representation in a specific culture.
+            </summary>
+            <param name="value">The value to be converted.</param>
+            <param name="culture">The culture to be used for formatting (default is "en-US").</param>
+            <returns>The value represented as a formatted currency string.</returns>
+        </member>
+        <member name="T:Helpers.PasswordHelper">
+            <summary>
+            Provides methods for generating and validating passwords.
+            </summary>
+        </member>
+        <member name="M:Helpers.PasswordHelper.Generate(System.Int32,System.Boolean,System.Boolean,System.Boolean)">
+            <summary>
+            Generates a random password with the specified options.
+            </summary>
+            <param name="length">The length of the password. Must be at least 4.</param>
+            <param name="useUppercase">Include uppercase letters.</param>
+            <param name="useDigits">Include digits.</param>
+            <param name="useSymbols">Include special symbols.</param>
+            <returns>A randomly generated password string.</returns>
+        </member>
+        <member name="M:Helpers.PasswordHelper.IsStrong(System.String)">
+            <summary>
+            Checks if a password is considered strong.
+            A strong password must have at least 8 characters, one uppercase, one digit and one symbol.
+            </summary>
+            <param name="password">The password to evaluate.</param>
+            <returns>True if the password is strong; otherwise, false.</returns>
+        </member>
+        <member name="M:Helpers.PasswordHelper.GetStrengthScore(System.String)">
+            <summary>
+            Evaluates the strength of a password on a scale from 0 to 4.
+            </summary>
+            <param name="password">The password to evaluate.</param>
+            <returns>
+            0 = Very weak, 1 = Weak, 2 = Medium, 3 = Strong, 4 = Very strong.
+            </returns>
+        </member>
+        <member name="M:Helpers.PasswordHelper.HashSha256(System.String)">
+            <summary>
+            Hashes a password using SHA256.
+            For production use, prefer a proper key-derivation function such as BCrypt or PBKDF2.
+            </summary>
+            <param name="password">The plain-text password.</param>
+            <returns>A hex-encoded SHA256 hash of the password.</returns>
+        </member>
+        <member name="M:Helpers.PasswordHelper.VerifySha256(System.String,System.String)">
+            <summary>
+            Verifies a plain-text password against a SHA256 hash.
+            </summary>
+            <param name="password">The plain-text password.</param>
+            <param name="hash">The previously computed hash.</param>
+            <returns>True if the password matches the hash; otherwise, false.</returns>
+        </member>
+        <member name="T:Helpers.PipelineBuilder`1">
+            <summary>
+            Builds and executes a chain of middleware functions over a context of type <typeparamref name="T"/>.
+            Middlewares are invoked in the order they are added.
+            </summary>
+            <typeparam name="T">The context/data type flowing through the pipeline.</typeparam>
+        </member>
+        <member name="M:Helpers.PipelineBuilder`1.Use(System.Func{`0,System.Func{`0,System.Threading.Tasks.Task{`0}},System.Threading.Tasks.Task{`0}})">
+            <summary>
+            Adds a middleware to the pipeline.
+            The middleware receives the current context and a delegate to invoke the next middleware.
+            </summary>
+            <param name="middleware">The middleware function.</param>
+            <returns>The same builder instance for chaining.</returns>
+        </member>
+        <member name="M:Helpers.PipelineBuilder`1.UseTerminal(System.Func{`0,System.Threading.Tasks.Task{`0}})">
+            <summary>
+            Adds a simple transformation step (no access to next) as the terminal middleware.
+            </summary>
+            <param name="handler">A function that transforms the context.</param>
+            <returns>The same builder instance for chaining.</returns>
+        </member>
+        <member name="M:Helpers.PipelineBuilder`1.Build">
+            <summary>
+            Builds and returns the composed pipeline delegate.
+            </summary>
+            <returns>A delegate that executes the full pipeline.</returns>
+        </member>
+        <member name="M:Helpers.PipelineBuilder`1.ExecuteAsync(`0)">
+            <summary>
+            Builds the pipeline and immediately executes it with the given context.
+            </summary>
+            <param name="context">The initial context.</param>
+            <returns>The resulting context after all middleware stages.</returns>
+        </member>
+        <member name="T:Helpers.RateLimiterHelper">
+            <summary>
+            A thread-safe token bucket rate limiter.
+            Limits the number of operations permitted within a given time window.
+            </summary>
+        </member>
+        <member name="M:Helpers.RateLimiterHelper.#ctor(System.Int32,System.Nullable{System.TimeSpan})">
+            <param name="maxOperations">Maximum number of operations allowed per interval.</param>
+            <param name="interval">The time window for the token bucket. Defaults to 1 second.</param>
+        </member>
+        <member name="M:Helpers.RateLimiterHelper.TryAcquire">
+            <summary>
+            Attempts to consume one token. Returns true if the operation is allowed,
+            false if the rate limit has been exceeded.
+            </summary>
+        </member>
+        <member name="M:Helpers.RateLimiterHelper.TryAcquire(System.Int32)">
+            <summary>
+            Attempts to consume a specified number of tokens at once.
+            </summary>
+            <param name="count">Number of tokens to consume.</param>
+        </member>
+        <member name="M:Helpers.RateLimiterHelper.Execute(System.Action)">
+            <summary>
+            Executes an action if a token is available; otherwise throws <see cref="T:Helpers.RateLimitExceededException"/>.
+            </summary>
+        </member>
+        <member name="M:Helpers.RateLimiterHelper.ExecuteAsync(System.Func{System.Threading.Tasks.Task})">
+            <summary>
+            Executes an async function if a token is available; otherwise throws <see cref="T:Helpers.RateLimitExceededException"/>.
+            </summary>
+        </member>
+        <member name="P:Helpers.RateLimiterHelper.AvailableTokens">
+            <summary>Gets the number of tokens currently available.</summary>
+        </member>
+        <member name="T:Helpers.RateLimitExceededException">
+            <summary>
+            Exception thrown when the rate limit is exceeded.
+            </summary>
+        </member>
+        <member name="M:Helpers.RateLimitExceededException.#ctor(System.String)">
+            <summary>
+            Exception thrown when the rate limit is exceeded.
+            </summary>
+        </member>
+        <member name="T:Helpers.RegExValidation">
+            <summary>
+            Provides regular expression-based validation methods for various formats including password, email, phone number, URLs, postal codes, credit cards, IP addresses, SSNs, usernames, and dates.
+            </summary>
+        </member>
+        <member name="M:Helpers.RegExValidation.CheckPassword(System.String)">
+            <summary>
+            Checks if the given password meets the required complexity.
+            </summary>
+            <param name="password">The password to validate.</param>
+            <returns>True if the password is valid, otherwise false.</returns>
+        </member>
+        <member name="M:Helpers.RegExValidation.IsValidEmail(System.String)">
+            <summary>
+            Validates if the given string is a valid email address.
+            </summary>
+            <param name="email">The email address to validate.</param>
+            <returns>True if the email is valid, otherwise false.</returns>
+        </member>
+        <member name="M:Helpers.RegExValidation.IsValidPhoneNumber(System.String)">
+            <summary>
+            Validates if the given string is a valid phone number.
+            </summary>
+            <param name="phoneNumber">The phone number to validate.</param>
+            <returns>True if the phone number is valid, otherwise false.</returns>
+        </member>
+        <member name="M:Helpers.RegExValidation.IsValidURL(System.String)">
+            <summary>
+            Validates if the given string is a valid URL.
+            </summary>
+            <param name="url">The URL to validate.</param>
+            <returns>True if the URL is valid, otherwise false.</returns>
+        </member>
+        <member name="M:Helpers.RegExValidation.IsValidPostalCode(System.String)">
+            <summary>
+            Validates if the given string is a valid postal code.
+            </summary>
+            <param name="postalCode">The postal code to validate.</param>
+            <returns>True if the postal code is valid, otherwise false.</returns>
+        </member>
+        <member name="M:Helpers.RegExValidation.IsValidCreditCard(System.String)">
+            <summary>
+            Validates if the given string is a valid credit card number using the Luhn algorithm.
+            </summary>
+            <param name="creditCardNumber">The credit card number to validate.</param>
+            <returns>True if the credit card number is valid, otherwise false.</returns>
+        </member>
+        <member name="M:Helpers.RegExValidation.IsValidIPv4(System.String)">
+            <summary>
+            Validates if the given string is a valid IPv4 address.
+            </summary>
+            <param name="ipAddress">The IPv4 address to validate.</param>
+            <returns>True if the IPv4 address is valid, otherwise false.</returns>
+        </member>
+        <member name="M:Helpers.RegExValidation.IsValidIPv6(System.String)">
+            <summary>
+            Validates if the given string is a valid IPv6 address.
+            </summary>
+            <param name="ipAddress">The IPv6 address to validate.</param>
+            <returns>True if the IPv6 address is valid, otherwise false.</returns>
+        </member>
+        <member name="M:Helpers.RegExValidation.IsValidSSN(System.String)">
+            <summary>
+            Validates if the given string is a valid Social Security Number (SSN).
+            </summary>
+            <param name="ssn">The SSN to validate.</param>
+            <returns>True if the SSN is valid, otherwise false.</returns>
+        </member>
+        <member name="M:Helpers.RegExValidation.IsValidUsername(System.String)">
+            <summary>
+            Validates if the given string is a valid username.
+            </summary>
+            <param name="username">The username to validate.</param>
+            <returns>True if the username is valid, otherwise false.</returns>
+        </member>
+        <member name="M:Helpers.RegExValidation.IsValidDate(System.String,System.String[])">
+            <summary>
+            Validates if the given date string matches any of the specified date formats.
+            </summary>
+            <param name="date">The date string to validate.</param>
+            <param name="dateFormats">An array of date formats to check against.</param>
+            <returns>True if the date string matches any format, otherwise false.</returns>
+        </member>
+        <member name="T:Helpers.RetryHelper">
+            <summary>
+            Provides retry policies for executing actions that may fail transiently.
+            </summary>
+        </member>
+        <member name="M:Helpers.RetryHelper.Execute(System.Action,System.Int32,System.Nullable{System.TimeSpan},System.Action{System.Exception,System.Int32})">
+            <summary>
+            Executes a synchronous action with a fixed retry delay.
+            </summary>
+            <param name="action">The action to execute.</param>
+            <param name="maxRetries">Maximum number of retry attempts.</param>
+            <param name="delay">Delay between retries.</param>
+            <param name="onRetry">Optional callback invoked on each failure with the exception and attempt number.</param>
+        </member>
+        <member name="M:Helpers.RetryHelper.Execute``1(System.Func{``0},System.Int32,System.Nullable{System.TimeSpan},System.Action{System.Exception,System.Int32})">
+            <summary>
+            Executes a synchronous function with a fixed retry delay and returns its result.
+            </summary>
+            <typeparam name="T">The return type.</typeparam>
+            <param name="func">The function to execute.</param>
+            <param name="maxRetries">Maximum number of retry attempts.</param>
+            <param name="delay">Delay between retries.</param>
+            <param name="onRetry">Optional callback invoked on each failure with the exception and attempt number.</param>
+            <returns>The result of the function.</returns>
+        </member>
+        <member name="M:Helpers.RetryHelper.ExecuteAsync(System.Func{System.Threading.Tasks.Task},System.Int32,System.Nullable{System.TimeSpan},System.Func{System.Exception,System.Int32,System.Threading.Tasks.Task},System.Threading.CancellationToken)">
+            <summary>
+            Executes an asynchronous function with a fixed retry delay.
+            </summary>
+            <param name="func">The async function to execute.</param>
+            <param name="maxRetries">Maximum number of retry attempts.</param>
+            <param name="delay">Delay between retries.</param>
+            <param name="onRetry">Optional async callback invoked on each failure.</param>
+            <param name="cancellationToken">Cancellation token.</param>
+        </member>
+        <member name="M:Helpers.RetryHelper.ExecuteAsync``1(System.Func{System.Threading.Tasks.Task{``0}},System.Int32,System.Nullable{System.TimeSpan},System.Func{System.Exception,System.Int32,System.Threading.Tasks.Task},System.Threading.CancellationToken)">
+            <summary>
+            Executes an asynchronous function with a fixed retry delay and returns a result.
+            </summary>
+            <typeparam name="T">The return type.</typeparam>
+            <param name="func">The async function to execute.</param>
+            <param name="maxRetries">Maximum number of retry attempts.</param>
+            <param name="delay">Delay between retries.</param>
+            <param name="onRetry">Optional async callback invoked on each failure.</param>
+            <param name="cancellationToken">Cancellation token.</param>
+            <returns>The result of the function.</returns>
+        </member>
+        <member name="M:Helpers.RetryHelper.ExecuteWithExponentialBackoffAsync(System.Func{System.Threading.Tasks.Task},System.Int32,System.Nullable{System.TimeSpan},System.Func{System.Exception,System.Int32,System.Threading.Tasks.Task},System.Threading.CancellationToken)">
+            <summary>
+            Executes an asynchronous function with exponential backoff between retries.
+            </summary>
+            <param name="func">The async function to execute.</param>
+            <param name="maxRetries">Maximum number of retry attempts.</param>
+            <param name="initialDelay">Initial delay (doubles on each attempt).</param>
+            <param name="onRetry">Optional async callback invoked on each failure.</param>
+            <param name="cancellationToken">Cancellation token.</param>
+        </member>
+        <member name="M:Helpers.SerializationHelper.SerializeToXml``1(``0)">
+            <summary>
+            Serializes an object to an XmlDocument.
+            </summary>
+            <typeparam name="T">The type of the object to serialize.</typeparam>
+            <param name="obj">The object to serialize.</param>
+            <returns>An XmlDocument containing the serialized object.</returns>
+        </member>
+        <member name="M:Helpers.SerializationHelper.DeserializeFromXml``1(System.Xml.XmlReader)">
+            <summary>
+            Deserializes an object from an XmlReader.
+            </summary>
+            <typeparam name="T">The type of the object to deserialize.</typeparam>
+            <param name="xml">The XmlReader containing the serialized object.</param>
+            <returns>The deserialized object.</returns>
+        </member>
+        <member name="M:Helpers.SerializationHelper.SerializeDataContract``1(``0)">
+            <summary>
+            Serializes an object to a string using DataContractSerializer.
+            </summary>
+            <typeparam name="T">The type of the object to serialize.</typeparam>
+            <param name="obj">The object to serialize.</param>
+            <returns>A string containing the serialized object.</returns>
+        </member>
+        <member name="M:Helpers.SerializationHelper.DeserializeDataContract``1(System.String)">
+            <summary>
+            Deserializes an object from a string using DataContractSerializer.
+            </summary>
+            <typeparam name="T">The type of the object to deserialize.</typeparam>
+            <param name="data">The string containing the serialized object.</param>
+            <returns>The deserialized object.</returns>
+        </member>
+        <member name="M:Helpers.SerializationHelper.SerializeToJson``1(``0)">
+            <summary>
+            Serializes an object to a JSON string using System.Text.Json.
+            </summary>
+            <typeparam name="T">The type of the object to serialize.</typeparam>
+            <param name="obj">The object to serialize.</param>
+            <returns>A JSON string containing the serialized object.</returns>
+        </member>
+        <member name="M:Helpers.SerializationHelper.DeserializeFromJson``1(System.String)">
+            <summary>
+            Deserializes an object from a JSON string using System.Text.Json.
+            </summary>
+            <typeparam name="T">The type of the object to deserialize.</typeparam>
+            <param name="json">The JSON string containing the serialized object.</param>
+            <returns>The deserialized object.</returns>
+        </member>
+        <member name="M:Helpers.SerializationHelper.IsValidXml(System.String)">
+            <summary>
+            Validates if a string is a well-formed XML.
+            </summary>
+            <param name="xml">The XML string to validate.</param>
+            <returns>True if the string is a well-formed XML; otherwise, false.</returns>
+        </member>
+        <member name="M:Helpers.SerializationHelper.IsValidJson(System.String)">
+            <summary>
+            Validates if a string is a well-formed JSON.
+            </summary>
+            <param name="json">The JSON string to validate.</param>
+            <returns>True if the string is a well-formed JSON; otherwise, false.</returns>
+        </member>
+        <member name="M:Helpers.SerializationHelper.FormatXml(System.Xml.XmlDocument)">
+            <summary>
+            Formats an XmlDocument to a pretty-printed string.
+            </summary>
+            <param name="xmlDoc">The XmlDocument to format.</param>
+            <returns>A pretty-printed string representation of the XmlDocument.</returns>
+        </member>
+        <member name="M:Helpers.SerializationHelper.Compress``1(``0)">
+            <summary>
+            Compresses an object to a byte array using GZip.
+            </summary>
+            <typeparam name="T">The type of the object to compress.</typeparam>
+            <param name="obj">The object to compress.</param>
+            <returns>A byte array containing the compressed object.</returns>
+        </member>
+        <member name="M:Helpers.SerializationHelper.Decompress``1(System.Byte[])">
+            <summary>
+            Decompresses an object from a byte array using GZip.
+            </summary>
+            <typeparam name="T">The type of the object to decompress.</typeparam>
+            <param name="compressedData">The byte array containing the compressed object.</param>
+            <returns>The decompressed object.</returns>
+        </member>
+        <member name="M:Helpers.SerializationHelper.SerializeToBinary``1(``0)">
+            <summary>
+            Serializes an object to a byte array using BinaryFormatter.
+            </summary>
+            <typeparam name="T">The type of the object to serialize.</typeparam>
+            <param name="obj">The object to serialize.</param>
+            <returns>A byte array containing the serialized object.</returns>
+        </member>
+        <member name="M:Helpers.SerializationHelper.SerializeToJsonByteArray``1(``0)">
+            <summary>
+            Serializes an object to a byte array using JSON serialization.
+            </summary>
+            <typeparam name="T">The type of the object to serialize.</typeparam>
+            <param name="obj">The object to serialize.</param>
+            <returns>A byte array containing the serialized object.</returns>
+        </member>
+        <member name="M:Helpers.SerializationHelper.DeserializeFromBinary``1(System.Byte[])">
+            <summary>
+            Deserializes an object from a byte array using BinaryFormatter.
+            </summary>
+            <typeparam name="T">The type of the object to deserialize.</typeparam>
+            <param name="data">The byte array containing the serialized object.</param>
+            <returns>The deserialized object.</returns>
+        </member>
+        <member name="M:Helpers.SerializationHelper.DeserializeFromJsonByteArray``1(System.Byte[])">
+            <summary>
+            Deserializes an object of type <typeparamref name="T"/> from a JSON byte array.
+            </summary>
+            <typeparam name="T">The type of the object to deserialize.</typeparam>
+            <param name="data">The byte array containing the JSON representation of the object.</param>
+            <returns>The deserialized object of type <typeparamref name="T"/>.</returns>
+            <exception cref="T:System.ArgumentNullException">Thrown when the provided byte array is null or empty.</exception>
+        </member>
+        <member name="M:Helpers.SslHelper.IgnoreCertificateWarning">
+            <summary>
+            Ignores all SSL certificate warnings. Use only for development purposes.
+            </summary>
+        </member>
+        <member name="M:Helpers.SslHelper.RestoreCertificateValidation">
+            <summary>
+            Restores the default SSL certificate validation behavior.
+            </summary>
+        </member>
+        <member name="M:Helpers.SslHelper.SetCustomCertificateValidation(System.Net.Security.RemoteCertificateValidationCallback)">
+            <summary>
+            Sets a custom SSL certificate validation callback.
+            </summary>
+            <param name="validationCallback">The custom validation callback to use.</param>
+        </member>
+        <member name="M:Helpers.SslHelper.IgnoreCertificateWarningTemporarily(System.Action)">
+            <summary>
+            Temporarily ignores SSL certificate warnings for a specific action.
+            </summary>
+            <param name="action">The action to execute while ignoring SSL certificate warnings.</param>
+        </member>
+        <member name="M:Helpers.StreamHelper.CopyStream(System.IO.Stream,System.IO.Stream)">
+            <summary>
+            Copies the contents of input to output. Doesn't close either stream.
+            </summary>
+        </member>
+        <member name="M:Helpers.StringHelper.IsAlpha(System.String)">
+            <summary>
+            Checks if the string contains only alphabetic characters.
+            </summary>
+            <param name="strToCheck">The string to check.</param>
+            <returns>True if the string contains only alphabetic characters; otherwise, false.</returns>
+        </member>
+        <member name="M:Helpers.StringHelper.IsAlphaNumeric(System.String)">
+            <summary>
+            Checks if the string contains only alphanumeric characters.
+            </summary>
+            <param name="strToCheck">The string to check.</param>
+            <returns>True if the string contains only alphanumeric characters; otherwise, false.</returns>
+        </member>
+        <member name="M:Helpers.StringHelper.ToDoubleNullable(System.String)">
+            <summary>
+            Converts the string to a double if the value is numeric. If not numeric, returns NULL.
+            </summary>
+            <param name="value">The string to convert.</param>
+            <returns>A nullable double if the conversion is successful; otherwise, null.</returns>
+        </member>
+        <member name="M:Helpers.StringHelper.ToEnumerable(System.String)">
+            <summary>
+            Fills an IEnumerable with each line of a string.
+            </summary>
+            <param name="text">The string to split into lines.</param>
+            <returns>An IEnumerable containing each line of the string.</returns>
+        </member>
+        <member name="M:Helpers.StringHelper.TextAfter(System.String,System.String)">
+            <summary>
+            Extracts a substring right after a given string.
+            </summary>
+            <param name="value">The original string.</param>
+            <param name="search">The string to search for.</param>
+            <returns>The substring right after the search string if found; otherwise, null.</returns>
+        </member>
+        <member name="M:Helpers.StringHelper.GetTextFromLine(System.String,System.Int32)">
+            <summary>
+            Gets a text from a specific line in a string.
+            </summary>
+            <param name="text">The string containing lines of text.</param>
+            <param name="lineNo">The line number to retrieve.</param>
+            <returns>The text from the specified line if it exists; otherwise, null.</returns>
+        </member>
+        <member name="M:Helpers.StringHelper.GetLineNumber(System.String,System.String)">
+            <summary>
+            Gets the line position of a substring in a given text.
+            </summary>
+            <param name="text">The string containing lines of text.</param>
+            <param name="lineToFind">The substring to find.</param>
+            <returns>The line number containing the substring if found; otherwise, -1.</returns>
+        </member>
+        <member name="M:Helpers.StringHelper.IsNumeric(System.String)">
+            <summary>
+            Checks if the string contains only numeric characters.
+            </summary>
+            <param name="strToCheck">The string to check.</param>
+            <returns>True if the string contains only numeric characters; otherwise, false.</returns>
+        </member>
+        <member name="M:Helpers.StringHelper.ToTitleCase(System.String)">
+            <summary>
+            Converts the string to title case (capitalizes the first letter of each word).
+            </summary>
+            <param name="str">The string to convert.</param>
+            <returns>The string in title case.</returns>
+        </member>
+        <member name="M:Helpers.StringHelper.ReverseString(System.String)">
+            <summary>
+            Reverses the characters in the string.
+            </summary>
+            <param name="str">The string to reverse.</param>
+            <returns>The reversed string.</returns>
+        </member>
+        <member name="M:Helpers.StringHelper.IsInteger(System.String)">
+            <summary>
+            Checks if the string is a valid integer.
+            </summary>
+            <param name="strToCheck">The string to check.</param>
+            <returns>True if the string is a valid integer; otherwise, false.</returns>
+        </member>
+        <member name="M:Helpers.StringHelper.IsValidDate(System.String,System.String)">
+            <summary>
+            Checks if the string is a valid date.
+            </summary>
+            <param name="strToCheck">The string to check.</param>
+            <param name="dateFormat">The date format to validate against. Default is "dd/MM/yyyy".</param>
+            <returns>True if the string is a valid date; otherwise, false.</returns>
+        </member>
+        <member name="M:Helpers.StringHelper.HasData(System.String)">
+            <summary>
+            Extension method to check if a string is not null or empty.
+            </summary>
+            <param name="value">The string to check.</param>
+            <returns>True if the string has data; otherwise, false.</returns>
+        </member>
+        <member name="M:Helpers.StringHelper.RemoveExtraSpaces(System.String)">
+            <summary>
+            Removes extra white spaces from the string.
+            </summary>
+            <param name="str">The string to process.</param>
+            <returns>The string without extra white spaces.</returns>
+        </member>
+        <member name="M:Helpers.StringHelper.IsValidEmail(System.String)">
+            <summary>
+            Checks if the string is a valid email address.
+            </summary>
+            <param name="email">The string to check.</param>
+            <returns>True if the string is a valid email address; otherwise, false.</returns>
+        </member>
+        <member name="M:Helpers.StringHelper.IsValidUrl(System.String)">
+            <summary>
+            Checks if the string is a valid URL.
+            </summary>
+            <param name="url">The string to check.</param>
+            <returns>True if the string is a valid URL; otherwise, false.</returns>
+        </member>
+        <member name="M:Helpers.StringHelper.Truncate(System.String,System.Int32)">
+            <summary>
+            Truncates the string to the specified length.
+            </summary>
+            <param name="str">The string to truncate.</param>
+            <param name="maxLength">The maximum length of the truncated string.</param>
+            <returns>The truncated string.</returns>
+        </member>
+        <member name="M:Helpers.StringHelper.ReplaceMultipleSpaces(System.String)">
+            <summary>
+            Replaces multiple spaces in the string with a single space.
+            </summary>
+            <param name="str">The string to process.</param>
+            <returns>The string with multiple spaces replaced by a single space.</returns>
+        </member>
+        <member name="M:Helpers.StringHelper.RemoveNonAlphanumeric(System.String)">
+            <summary>
+            Removes non-alphanumeric characters from the string.
+            </summary>
+            <param name="str">The string to process.</param>
+            <returns>The string without non-alphanumeric characters.</returns>
+        </member>
+        <member name="M:Helpers.StringHelper.ToCamelCase(System.String)">
+            <summary>
+            Converts the string to camelCase.
+            </summary>
+            <param name="str">The string to convert.</param>
+            <returns>The string in camelCase.</returns>
+        </member>
+        <member name="M:Helpers.StringHelper.ToSnakeCase(System.String)">
+            <summary>
+            Converts the string to snake_case.
+            </summary>
+            <param name="str">The string to convert.</param>
+            <returns>The string in snake_case.</returns>
+        </member>
+        <member name="M:Helpers.TimeseriesHelper.GetPeriodeSpansUnderThreshold(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.DateTimeOffset,System.Double}},System.Double)">
+            <summary>
+            Return period under threshold
+            </summary>
+            <param name="timeseriesValues"></param>
+            <param name="threshold"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Helpers.TimeseriesHelper.ExcludeSpan(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.DateTimeOffset,System.Double}},System.Collections.Generic.IEnumerable{System.Tuple{System.DateTimeOffset,System.DateTimeOffset}})">
+            <summary>
+            Exclude from timeseries values the date periode passed in parameter
+            </summary>
+            <param name="timeseriesValues"></param>
+            <param name="spansToExclude"></param>
+        </member>
+        <member name="M:Helpers.TreeHelper.GetAllNodes``1(``0,System.Func{``0,System.Collections.Generic.IEnumerable{``0}})">
+            <summary>
+            Return all nodes in a list
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="treeNode"></param>
+            <param name="getChildren"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Helpers.TreeHelper.DoActionOnCondition``1(``0,System.Func{``0,System.Collections.Generic.IEnumerable{``0}},System.Func{``0,System.Boolean},System.Action{``0},System.Action{``0})">
+            <summary>
+            Do the action on each node if matching to the condition
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="treeNode"></param>
+            <param name="getChildren"></param>
+            <param name="condition"></param>
+            <param name="action"></param>
+            <param name="elseAction"></param>
+        </member>
+        <member name="M:Helpers.TreeHelper.GetTree``2(``0,System.Collections.Generic.IEnumerable{``1},System.Func{``1,``0},System.Func{``1,System.Nullable{``0}},System.Func{``1,System.Collections.Generic.IList{``1}})">
+            <summary>
+            Get site tree
+            </summary>
+            <typeparam name="TP"></typeparam>
+            <typeparam name="T"></typeparam>
+            <param name="rootId"></param>
+            <param name="items"></param>
+            <param name="id"></param>
+            <param name="parentId"></param>
+            <param name="children"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Helpers.UnitHelper.ConvertDegreeToKelvin(System.Double)">
+            <summary>
+            Converts degrees Celsius to Kelvin.
+            </summary>
+            <param name="value">Temperature in degrees Celsius.</param>
+            <returns>Temperature in Kelvin.</returns>
+        </member>
+        <member name="M:Helpers.UnitHelper.ConvertKelvinToDegree(System.Double)">
+            <summary>
+            Converts Kelvin to degrees Celsius.
+            </summary>
+            <param name="value">Temperature in Kelvin.</param>
+            <returns>Temperature in degrees Celsius.</returns>
+        </member>
+        <member name="M:Helpers.UnitHelper.ConvertCelsiusToFahrenheit(System.Double)">
+            <summary>
+            Converts degrees Celsius to degrees Fahrenheit.
+            </summary>
+            <param name="value">Temperature in degrees Celsius.</param>
+            <returns>Temperature in degrees Fahrenheit.</returns>
+        </member>
+        <member name="M:Helpers.UnitHelper.ConvertFahrenheitToCelsius(System.Double)">
+            <summary>
+            Converts degrees Fahrenheit to degrees Celsius.
+            </summary>
+            <param name="value">Temperature in degrees Fahrenheit.</param>
+            <returns>Temperature in degrees Celsius.</returns>
+        </member>
+        <member name="M:Helpers.UnitHelper.ConvertMilesToKilometers(System.Double)">
+            <summary>
+            Converts miles to kilometers.
+            </summary>
+            <param name="value">Distance in miles.</param>
+            <returns>Distance in kilometers.</returns>
+        </member>
+        <member name="M:Helpers.UnitHelper.ConvertKilometersToMiles(System.Double)">
+            <summary>
+            Converts kilometers to miles.
+            </summary>
+            <param name="value">Distance in kilometers.</param>
+            <returns>Distance in miles.</returns>
+        </member>
+        <member name="M:Helpers.UnitHelper.ConvertPoundsToKilograms(System.Double)">
+            <summary>
+            Converts pounds to kilograms.
+            </summary>
+            <param name="value">Weight in pounds.</param>
+            <returns>Weight in kilograms.</returns>
+        </member>
+        <member name="M:Helpers.UnitHelper.ConvertKilogramsToPounds(System.Double)">
+            <summary>
+            Converts kilograms to pounds.
+            </summary>
+            <param name="value">Weight in kilograms.</param>
+            <returns>Weight in pounds.</returns>
+        </member>
+        <member name="M:Helpers.UnitHelper.ConvertLitersToGallons(System.Double)">
+            <summary>
+            Converts liters to gallons.
+            </summary>
+            <param name="value">Volume in liters.</param>
+            <returns>Volume in gallons.</returns>
+        </member>
+        <member name="M:Helpers.UnitHelper.ConvertGallonsToLiters(System.Double)">
+            <summary>
+            Converts gallons to liters.
+            </summary>
+            <param name="value">Volume in gallons.</param>
+            <returns>Volume in liters.</returns>
+        </member>
+        <member name="M:Helpers.UnitHelper.ConvertInchesToCentimeters(System.Double)">
+            <summary>
+            Converts inches to centimeters.
+            </summary>
+            <param name="value">Length in inches.</param>
+            <returns>Length in centimeters.</returns>
+        </member>
+        <member name="M:Helpers.UnitHelper.ConvertCentimetersToInches(System.Double)">
+            <summary>
+            Converts centimeters to inches.
+            </summary>
+            <param name="value">Length in centimeters.</param>
+            <returns>Length in inches.</returns>
+        </member>
+        <member name="T:Helpers.UriHelper">
+            <summary>
+            UriHelper class implementation.
+            </summary>
+        </member>
+        <member name="M:Helpers.UriHelper.GetUri(System.Uri,System.String,System.String)">
+            <summary>
+            Constructs a new URI using the specified IP and port, retaining the scheme and local path of the original URI.
+            </summary>
+            <param name="uri">The original URI.</param>
+            <param name="ip">The IP address to use in the new URI.</param>
+            <param name="port">The port to use in the new URI.</param>
+            <returns>A new URI constructed with the specified IP and port.</returns>
+        </member>
+        <member name="M:Helpers.UriHelper.AddOrUpdateQueryParam(System.Uri,System.String,System.String)">
+            <summary>
+            Adds or updates a query parameter in the URI.
+            </summary>
+            <param name="uri">The original URI.</param>
+            <param name="paramName">The name of the query parameter to add or update.</param>
+            <param name="paramValue">The value of the query parameter.</param>
+            <returns>A new URI with the added or updated query parameter.</returns>
+        </member>
+        <member name="M:Helpers.UriHelper.RemoveQueryParam(System.Uri,System.String)">
+            <summary>
+            Removes a query parameter from the URI.
+            </summary>
+            <param name="uri">The original URI.</param>
+            <param name="paramName">The name of the query parameter to remove.</param>
+            <returns>A new URI with the specified query parameter removed.</returns>
+        </member>
+        <member name="M:Helpers.UriHelper.IsValidUri(System.String)">
+            <summary>
+            Checks if a URI is valid.
+            </summary>
+            <param name="uri">The URI string to validate.</param>
+            <returns>True if the URI is valid; otherwise, false.</returns>
+        </member>
+        <member name="M:Helpers.UriHelper.GetHostAndPort(System.Uri)">
+            <summary>
+            Gets the host and port from the URI.
+            </summary>
+            <param name="uri">The URI to extract the host and port from.</param>
+            <returns>A tuple containing the host and port.</returns>
+        </member>
+        <member name="M:Helpers.UriHelper.BuildUri(System.String,System.String,System.Int32,System.String,System.Collections.Generic.IDictionary{System.String,System.String})">
+            <summary>
+            Builds a URI from separate parts.
+            </summary>
+            <param name="scheme">The scheme (e.g., http, https) of the URI.</param>
+            <param name="host">The host (e.g., example.com) of the URI.</param>
+            <param name="port">The port of the URI.</param>
+            <param name="path">The path (e.g., /index.html) of the URI.</param>
+            <param name="queryParams">A dictionary of query parameters to include in the URI.</param>
+            <returns>A new URI constructed from the specified parts.</returns>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.MyRegex_0">
+            <summary>Custom <see cref="T:System.Text.RegularExpressions.Regex"/>-derived type for the MyRegex method.</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.MyRegex_0.Instance">
+            <summary>Cached, thread-safe singleton instance.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.MyRegex_0.#ctor">
+            <summary>Initializes the instance.</summary>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.MyRegex_0.RunnerFactory">
+            <summary>Provides a factory for creating <see cref="T:System.Text.RegularExpressions.RegexRunner"/> instances to be used by methods on <see cref="T:System.Text.RegularExpressions.Regex"/>.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.MyRegex_0.RunnerFactory.CreateInstance">
+            <summary>Creates an instance of a <see cref="T:System.Text.RegularExpressions.RegexRunner"/> used by methods on <see cref="T:System.Text.RegularExpressions.Regex"/>.</summary>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.MyRegex_0.RunnerFactory.Runner">
+            <summary>Provides the runner that contains the custom logic implementing the specified regular expression.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.MyRegex_0.RunnerFactory.Runner.Scan(System.ReadOnlySpan{System.Char})">
+            <summary>Scan the <paramref name="inputSpan"/> starting from base.runtextstart for the next match.</summary>
+            <param name="inputSpan">The text being scanned by the regular expression.</param>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.MyRegex_0.RunnerFactory.Runner.TryFindNextPossibleStartingPosition(System.ReadOnlySpan{System.Char})">
+            <summary>Search <paramref name="inputSpan"/> starting from base.runtextpos for the next location a match could possibly start.</summary>
+            <param name="inputSpan">The text being scanned by the regular expression.</param>
+            <returns>true if a possible match was found; false if no more matches are possible.</returns>
+        </member>
+        <member name="T:System.Text.RegularExpressions.Generated.Utilities">
+            <summary>Helper methods used by generated <see cref="T:System.Text.RegularExpressions.Regex"/>-derived implementations.</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_defaultTimeout">
+            <summary>Default timeout value set in <see cref="T:System.AppContext"/>, or <see cref="F:System.Text.RegularExpressions.Regex.InfiniteMatchTimeout"/> if none was set.</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_hasTimeout">
+            <summary>Whether <see cref="F:System.Text.RegularExpressions.Generated.Utilities.s_defaultTimeout"/> is non-infinite.</summary>
+        </member>
+        <member name="M:System.Text.RegularExpressions.Generated.Utilities.IndexOfAnyExceptDigit(System.ReadOnlySpan{System.Char})">
+            <summary>Finds the next index of any character that matches any character other than a Unicode digit.</summary>
+        </member>
+        <member name="F:System.Text.RegularExpressions.Generated.Utilities.s_asciiDigits">
+            <summary>Supports searching for characters in or not in "0123456789".</summary>
+        </member>
+    </members>
+</doc>
