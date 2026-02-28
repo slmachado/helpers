@@ -1,10 +1,10 @@
 # cs-helpers
-
+[![Publish NuGet to GitHub Packages](https://github.com/slmachado/helpers/actions/workflows/publish.yml/badge.svg?branch=master)](https://github.com/slmachado/helpers/actions/workflows/publish.yml)
 > A utility class library for .NET — helpers for strings, enums, collections, files, dates, networking, validations, and asynchronous processing.
 
 | Info | Value |
 |------|-------|
-| **Version** | 1.1.9 |
+| **Version** | 1.1.11 |
 | **Framework** | .NET 8 / C# 12 |
 | **Author** | Sergio Machado |
 | **Package ID** | `cs-helpers` |
