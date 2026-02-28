@@ -4,7 +4,7 @@
 
 | Info | Value |
 |------|-------|
-| **Version** | 1.1.11 |
+| **Version** | 1.1.10 |
 | **Framework** | .NET 8 / C# 12 |
 | **Author** | Sergio Machado |
 | **Package ID** | `cs-helpers` |
