@@ -17,24 +17,38 @@
 helpers/
 ├── cs-helpers.sln
 ├── CHANGELOG.md
+├── benchmarks/
+│   ├── Helpers.Benchmarks.csproj
+│   └── StringHelperBenchmarks.cs
 ├── src/
 │   ├── Helpers.csproj
+│   ├── BackgroundTaskQueue.cs
 │   ├── Base64Helper.cs
 │   ├── BinaryHelper.cs
 │   ├── BooleanHelper.cs
 │   ├── BrasilDocsValidationHelper.cs
+│   ├── CircuitBreakerHelper.cs
 │   ├── DateTimeHelper.cs
+│   ├── EncryptionHelper.cs
 │   ├── EnumHelper.cs
 │   ├── EnumerableExtensions.cs
+│   ├── EventBusHelper.cs
 │   ├── FileHelper.cs
 │   ├── FloatingNumberHelper.cs
+│   ├── FluentHttpClient.cs
+│   ├── GlobalUsings.cs
 │   ├── GuidHelper.cs
+│   ├── InMemoryCacheHelper.cs
 │   ├── JsonHelper.cs
+│   ├── MappingHelper.cs
 │   ├── MathHelper.cs
 │   ├── NameOfHelper.cs
 │   ├── NetworkHelper.cs
 │   ├── NumericHelper.cs
+│   ├── PaginationHelper.cs
 │   ├── PasswordHelper.cs
+│   ├── PipelineBuilder.cs
+│   ├── RateLimiterHelper.cs
 │   ├── RegExValidation.cs
 │   ├── RetryHelper.cs
 │   ├── SSLHelper.cs
@@ -89,8 +103,12 @@ helpers/
     │
     ├── BackgroundTaskQueueTests.cs
     ├── CircuitBreakerHelperTests.cs
+    ├── EncryptionHelperTests.cs
     ├── EventBusHelperTests.cs
+    ├── FluentHttpClientTests.cs
     ├── InMemoryCacheHelperTests.cs
+    ├── MappingHelperTests.cs
+    ├── PaginationHelperTests.cs
     ├── PipelineBuilderTests.cs
     └── RateLimiterHelperTests.cs
 ```
@@ -108,16 +126,20 @@ helpers/
 | `BooleanHelper` | Boolean operations |
 | `BrasilDocsValidationHelper` | Brazilian document validation: **CPF**, **CNPJ**, **PIS**, **CEP** |
 | `DateTimeHelper` | Date and time manipulation |
+| `EncryptionHelper` | AES-256 symmetric encryption with secure key derivation |
 | `EnumHelper` | Enum operations: `Parse`, `TryParse`, `GetDescription`, `ToList`, `GetNames`, `GetValues`, `ConvertToDescriptionDictionary`, `IsDefined` |
 | `EnumerableExtensions` | Collection extensions: `HasData`, `IsEmpty`, `ForEach`, `ChunkBy`, `DistinctBy`, `Shuffle`, `Partition`, `FindItemWithNeighbors`, `ToCommaSeparatedString` |
 | `FileHelper` | File operations |
 | `FloatingNumberHelper` | Floating-point operations |
-| `GuidHelper` | Validation, URL-safe Base64 short GUID, safe parse and sequential generation |
+| `FluentHttpClient` | Fluent wrapper over `HttpClient` with native JSON support and error handling |
+| `GuidHelper` | Validation, URL-safe Base64 short GUID, safe parse, and sequential generation |
 | `JsonHelper` | `TryDeserialize`, `Prettify`, `Minify`, `Merge`, `SerializeCamelCase`, `TryGetProperty`, `Flatten` |
+| `MappingHelper` | Lightweight object mapper for DTO transformations |
 | `MathHelper` | Mathematical operations |
 | `NameOfHelper` | Helper for `nameof` expressions |
 | `NetworkHelper` | Network operations |
 | `NumericHelper` | Numeric operations |
+| `PaginationHelper` | Utilities for `IEnumerable` and `IQueryable` pagination |
 | `PasswordHelper` | Secure password generation, strength validation, `GetStrengthScore` and SHA256 hashing |
 | `RegExValidation` | Regex-based validations |
 | `RetryHelper` | Retry policy: `Execute`, `ExecuteAsync`, `ExecuteWithExponentialBackoffAsync` |
@@ -160,7 +182,7 @@ helpers/
 ## Tests
 
 - **Framework:** xUnit 2.5.3 + FluentAssertions 6.12.1 + Coverlet
-- **32 test files** — one per helper, with 1:1 coverage
+- **36 test files** — one per helper, with 1:1 coverage
 
 | Test Class | Helper Tested |
 |------------|---------------|
@@ -193,8 +215,12 @@ helpers/
 | **Architectural Patterns** | |
 | `BackgroundTaskQueueTests` | `BackgroundTaskQueue` |
 | `CircuitBreakerHelperTests` | `CircuitBreakerHelper` |
+| `EncryptionHelperTests` | `EncryptionHelper` |
 | `EventBusHelperTests` | `EventBusHelper` |
+| `FluentHttpClientTests` | `FluentHttpClient` |
 | `InMemoryCacheHelperTests` | `InMemoryCacheHelper` |
+| `MappingHelperTests` | `MappingHelper` |
+| `PaginationHelperTests` | `PaginationHelper` |
 | `PipelineBuilderTests` | `PipelineBuilder<T>` |
 | `RateLimiterHelperTests` | `RateLimiterHelper` |
 
@@ -225,6 +251,11 @@ helpers/
 - ✅ Lightweight in-process pub/sub without a broker: `EventBusHelper`
 - ✅ Pipeline composition: `PipelineBuilder<T>` with short-circuit support
 - ✅ Rate control: `RateLimiterHelper` (token bucket, thread-safe)
+- ✅ Simplified Encryption: `EncryptionHelper` (AES-256 + PBKDF2)
+- ✅ Fluent HTTP Client: `FluentHttpClient` with native JSON support
+- ✅ Mapping & Pagination: `MappingHelper` and `PaginationHelper` included
+- ✅ Optimized performance: Widespread use of `[GeneratedRegex]` in .NET 8
+- ✅ Integrated Benchmarks project for performance validation
 - ✅ NuGet package automatically generated on build (`GeneratePackageOnBuild`)
 
 ---

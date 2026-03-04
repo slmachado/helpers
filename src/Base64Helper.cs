@@ -1,6 +1,5 @@
 ﻿namespace Helpers;
 
-using System.Text;
 
 /// <summary>
 /// Provides methods for working with Base64 encoding and decoding.

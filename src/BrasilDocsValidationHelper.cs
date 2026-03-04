@@ -1,5 +1,4 @@
-﻿using System.Text.RegularExpressions;
-// ReSharper disable InconsistentNaming
+﻿// ReSharper disable InconsistentNaming
 
 namespace Helpers
 {

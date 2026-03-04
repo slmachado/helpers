@@ -1,7 +1,6 @@
 namespace Helpers;
 
 using System.Globalization;
-using System.IO;
 
 /// <summary>
 /// Helper class for performing common file operations.

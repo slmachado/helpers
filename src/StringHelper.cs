@@ -1,10 +1,32 @@
 ﻿using System.Globalization;
-using System.Text.RegularExpressions;
 
 namespace Helpers
 {
-    public static class StringHelper
+    public static partial class StringHelper
     {
+        [GeneratedRegex(@"[^a-zA-Z]", RegexOptions.Compiled)]
+        private static partial Regex AlphaRegex();
+
+        [GeneratedRegex(@"[^a-zA-Z0-9]", RegexOptions.Compiled)]
+        private static partial Regex AlphaNumericRegex();
+
+        [GeneratedRegex(@"[^0-9]", RegexOptions.Compiled)]
+        private static partial Regex NumericRegex();
+
+        [GeneratedRegex(@"\s+", RegexOptions.Compiled)]
+        private static partial Regex ExtraSpacesRegex();
+
+        [GeneratedRegex(@"\s{2,}", RegexOptions.Compiled)]
+        private static partial Regex MultipleSpacesRegex();
+
+        [GeneratedRegex(@"[^a-zA-Z0-9]", RegexOptions.Compiled)]
+        private static partial Regex NonAlphanumericRegex();
+
+        [GeneratedRegex(@"([a-z0-9])([A-Z])", RegexOptions.Compiled)]
+        private static partial Regex SnakeCaseRegex();
+
+        [GeneratedRegex(@"^_+", RegexOptions.Compiled)]
+        private static partial Regex StartUnderscoresRegex();
         /// <summary>
         /// Checks if the string contains only alphabetic characters.
         /// </summary>
@@ -12,8 +34,7 @@ namespace Helpers
         /// <returns>True if the string contains only alphabetic characters; otherwise, false.</returns>
         public static bool IsAlpha(string strToCheck)
         {
-            Regex objAlphaPattern = new Regex("[^a-zA-Z]");
-            return !objAlphaPattern.IsMatch(strToCheck);
+            return !AlphaRegex().IsMatch(strToCheck);
         }
 
         /// <summary>
@@ -23,8 +44,7 @@ namespace Helpers
         /// <returns>True if the string contains only alphanumeric characters; otherwise, false.</returns>
         public static bool IsAlphaNumeric(string strToCheck)
         {
-            Regex objAlphaNumericPattern = new Regex("[^a-zA-Z0-9]");
-            return !objAlphaNumericPattern.IsMatch(strToCheck);
+            return !AlphaNumericRegex().IsMatch(strToCheck);
         }
 
         /// <summary>
@@ -114,8 +134,7 @@ namespace Helpers
         /// <returns>True if the string contains only numeric characters; otherwise, false.</returns>
         public static bool IsNumeric(string strToCheck)
         {
-            Regex objNumericPattern = new Regex("[^0-9]");
-            return !objNumericPattern.IsMatch(strToCheck);
+            return !NumericRegex().IsMatch(strToCheck);
         }
 
         /// <summary>
@@ -178,7 +197,7 @@ namespace Helpers
         /// <returns>The string without extra white spaces.</returns>
         public static string RemoveExtraSpaces(this string str)
         {
-            return Regex.Replace(str, @"\s+", " ").Trim();
+            return ExtraSpacesRegex().Replace(str, " ").Trim();
         }
 
         /// <summary>
@@ -229,7 +248,7 @@ namespace Helpers
         /// <returns>The string with multiple spaces replaced by a single space.</returns>
         public static string ReplaceMultipleSpaces(this string str)
         {
-            return Regex.Replace(str, @"\s{2,}", " ");
+            return MultipleSpacesRegex().Replace(str, " ");
         }
 
         /// <summary>
@@ -239,7 +258,7 @@ namespace Helpers
         /// <returns>The string without non-alphanumeric characters.</returns>
         public static string RemoveNonAlphanumeric(this string str)
         {
-            return Regex.Replace(str, "[^a-zA-Z0-9]", "");
+            return NonAlphanumericRegex().Replace(str, "");
         }
 
         /// <summary>
@@ -263,8 +282,8 @@ namespace Helpers
         {
             if (string.IsNullOrEmpty(str))
                 return str;
-            var startUnderscores = Regex.Match(str, @"^_+");
-            return startUnderscores + Regex.Replace(str, @"([a-z0-9])([A-Z])", "$1_$2").ToLower();
+            var startUnderscores = StartUnderscoresRegex().Match(str);
+            return startUnderscores + SnakeCaseRegex().Replace(str, "$1_$2").ToLower();
         }
     }
 }
